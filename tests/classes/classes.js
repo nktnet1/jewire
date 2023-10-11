@@ -14,20 +14,41 @@ class TestClass {
     return this.names;
   }
 
-  getObject() {
+  getNameAsObject() {
+    return {
+      name: this.name,
+      array: [this.name],
+      object: {
+        name: this.name,
+        nameNested: {
+          name: this.name,
+        }
+      },
+      arrayOfObjects: [
+        { name: this.name },
+        { name: this.name }
+      ]
+    };
+  }
+
+  makeThisNonConfigurable() {
+    console.log(this.name);
+  }
+
+  static getObject() {
     return {
       key1: 'value1', key2: 2,
     };
   }
 
-  getArrayOfObjects() {
+  static getArrayOfObjects() {
     return [
       { name: 'Tam', age: 22 },
       { name: 'Spam', age: 23 },
     ];
   }
 
-  getDeeplyNestedObject() {
+  static getDeeplyNestedObject() {
     return {
       key1: 'value1',
       key2: {
@@ -38,3 +59,7 @@ class TestClass {
     };
   }
 }
+
+Object.defineProperty(TestClass.prototype, 'makeThisNonConfigurable', {
+  configurable: false,
+});
