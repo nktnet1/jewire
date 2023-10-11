@@ -1,4 +1,4 @@
-const jewire = require('../../src');
+import jewire from '../../src';
 
 const {
   sum,

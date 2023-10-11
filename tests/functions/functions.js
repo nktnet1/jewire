@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-const numberFive = 5;
-
 const sum = (a, b) => a + b;
 
 const getArrayArrowFunction = (n) => {
