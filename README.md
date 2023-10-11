@@ -66,8 +66,48 @@ npm install jewire
 <!-- Try with [replit](). -->
 
 ```
-const { privVariable, privFunction } = jewire(relativePath, options);
+jewire(relativePath, options);
 ```
+
+<details closed>
+<summary>Examples (click to view)</summary>
+
+<br/>
+
+Importing from the same directory
+
+```javascript
+const { privateVariable, privateFunction } = jewire('private-module');
+```
+
+Importing `.cjs` file from a different directory
+
+```javascript
+const { privateFunction  } = jewire('../src/private-module.cjs');
+```
+
+Using a different basePath
+
+```javascript
+const { privateFunction } = jewire(
+  '../src/private-module.cjs',
+  { basePath: process.cwd() }
+);
+```
+
+Using a different clone function from the default `clone.objectClone`:
+
+```javascript
+const { privateFunction } = jewire(
+  '../src/private-module.cjs',
+  { objectClone: (obj) => JSON.parse(JSON.stringify(obj)) }
+);
+```
+
+</details>
+
+<br/>
+
 
 ### 2.1. relativePath
 
@@ -108,7 +148,7 @@ process.cwd()
 )
 </pre>
     </td>
-    <td><code>utils.objectClone</code></td>
+    <td><code>clone.objectClone</code></td>
   </tr>
   <tr>
     <td>callback</td>
