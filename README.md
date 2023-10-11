@@ -144,7 +144,9 @@ process.cwd()
     <td><code>__dirname</code></td>
   </tr>
 
-  <td>objectClone</td>
+  <td>
+    objectClone
+  </td>
   <td>
       Cloning function to apply to any objects or arrays that are global symbols, function return values or class method return values.
   </td>
@@ -157,7 +159,13 @@ o => JSON.parse(
 )
 </pre>
     </td>
-    <td><code>clone.objectClone</code></td>
+    <td>
+      <code>
+        objectClone
+      </code>
+      (see <a href='src/clone.ts>clone.ts'>clone.ts</a>)
+    </td>
+
   </tr>
   <tr>
     <td>callback</td>
