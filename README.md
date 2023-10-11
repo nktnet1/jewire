@@ -52,8 +52,17 @@ Enable named exports with relative paths identical to CommonJS [require](https:/
 
 Clone objects at runtime to remove false negatives in expect[.toStrictEqual](https://jestjs.io/docs/expect#tostrictequalvalue)
 
-
 </div>
+
+---
+
+- [1. Installation](#1-installation)
+- [2. Usage](#2-usage)
+    - [2.1. relativePath](#21-relativepath)
+    - [2.2. Options](#22-options)
+- [3. License](#3-license)
+- [4. Limitations](#4-limitations)
+- [5. Caveats](#5-caveats)
 
 ## 1. Installation
 
@@ -212,7 +221,7 @@ it has the same limitations in that it can only import CommonJS modules. Please
 see the [limitations](https://github.com/jhnns/rewire#limitations) as described
 in the rewire module.
 
-## 5. Caveat
+## 5. Caveats
 
 **jewire** was designed to autotest private functions in the submitted code of students
 using the Jest testing framework during the first two weeks of their studies in
