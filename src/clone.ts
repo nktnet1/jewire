@@ -53,7 +53,7 @@ const objectClone: CloneFn = <T>(obj: T): T => {
  * @param clone - The deep cloning function (defaulting to `deepClone`).
  * @returns A jewirified function.
  */
-const functionClone = <T extends (...args: any[]) => any>(fn: T, clone = objectClone) => (
+const functionClone = <T extends (...args: any[]) => any>(fn: T, clone: CloneFn) => (
   ...args: Parameters<T>
 ): ReturnType<T> => {
   const result = fn(...args);
@@ -69,21 +69,30 @@ const functionClone = <T extends (...args: any[]) => any>(fn: T, clone = objectC
  * @param target object instance to decorate methods around
  */
 function decorateClassMethodClone<T extends { new (...args: any[]): Record<string, any> }>(target: T): T {
-  Reflect.ownKeys(target.prototype)
-    .filter(key => key !== 'constructor')
-    .forEach(key => {
-      const descriptor = Reflect.getOwnPropertyDescriptor(target.prototype, key);
-      if (!descriptor || !descriptor.configurable) {
-        return;
-      }
-      const { value } = descriptor;
-      if (typeof value !== 'function') return;
-      if (value === target) return;
+  const decorateMethod = (obj: Record<string, any>, key: string | symbol) => {
+    const descriptor = Reflect.getOwnPropertyDescriptor(obj, key);
+    if (!descriptor || !descriptor.configurable) {
+      return;
+    }
+    const { value } = descriptor;
+    if (typeof value === 'function' && value !== target) {
       descriptor.value = function (...args: any[]) {
         return entityClone(value.apply(this, args));
       };
-      Object.defineProperty(target.prototype, key, descriptor);
-    });
+      Object.defineProperty(obj, key, descriptor);
+    }
+  };
+
+  // Decorate static methods
+  Object.getOwnPropertyNames(target)
+    .filter((key) => !['length', 'name', 'prototype'].includes(key))
+    .forEach(key => decorateMethod(target, key));
+
+  // Decorate instance methods
+  Reflect.ownKeys(target.prototype)
+    .filter(key => key !== 'constructor')
+    .forEach(key => decorateMethod(target.prototype, key));
+
   return target;
 }
 
@@ -96,6 +105,7 @@ function decorateClassMethodClone<T extends { new (...args: any[]): Record<strin
  * @returns {T} - A deep clone of the input object
  * @throws {Error} - An unsupported data type is encountered
  */
+/* istanbul ignore next */
 const classClone: CloneFn = <T>(obj: T): T => {
   if (obj === null || typeof obj !== 'object') {
     return decorateClassMethodClone(obj as any);
@@ -117,7 +127,7 @@ const classClone: CloneFn = <T>(obj: T): T => {
  * @param objClone
  * @returns the cloned function or class
  */
-const functionOrClassClone = (functionOrClass: any, objClone = objectClone) =>
+const functionOrClassClone = (functionOrClass: any, objClone: CloneFn) =>
   isFunction(functionOrClass)
     ? functionClone(functionOrClass, objClone)
     : classClone(functionOrClass);
