@@ -7,20 +7,19 @@ import { ASTProgram, HiddenExportInfo } from './types';
 /**
  * Get the file path of the caller function.
  *
+ * Implementation inspired by:
+ * - https://www.npmjs.com/package/callsite?activeTab=code
+ *
  * @returns {string} absolute path or an empty string if no caller
  */
 export const getCallerFilePath = (): string => {
-  const error = new Error();
-  if (error.stack) {
-    const stackLines = error.stack.split('\n');
-    if (stackLines.length >= 4) {
-      const matches = stackLines[3].trim().match(/\((.*):\d+:\d+\)/);
-      if (matches && matches.length > 1) {
-        return matches[1];
-      }
-    }
-  }
-  return '';
+  const orig = Error.prepareStackTrace;
+  Error.prepareStackTrace = (_, stack) => stack;
+  const err = new Error();
+  Error.captureStackTrace(err, getCallerFilePath);
+  const stack = err.stack as any;
+  Error.prepareStackTrace = orig;
+  return stack[1].getFileName();
 };
 
 /**
