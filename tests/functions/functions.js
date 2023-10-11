@@ -29,10 +29,6 @@ const getDeeplyNestedObject = () => {
 };
 
 const getArrayOfObjects = () => [
-  {
-    name: 'Tam',
-  },
-  {
-    name: 'Ham',
-  },
+  { name: 'Tam' },
+  { name: 'Ham' },
 ];

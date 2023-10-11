@@ -68,10 +68,11 @@ const functionClone = <T extends (...args: any[]) => any>(fn: T, clone: CloneFn)
 
  * @param target object instance to decorate methods around
  */
-function decorateClassMethodClone<T extends { new (...args: any[]): Record<string, any> }>(target: T): T {
+function decorateClassMethodClone(target: any) {
   const decorateMethod = (obj: Record<string, any>, key: string | symbol) => {
     const descriptor = Reflect.getOwnPropertyDescriptor(obj, key);
-    if (!descriptor || !descriptor.configurable) {
+    /* istanbul ignore next */
+    if (!descriptor?.configurable) {
       return;
     }
     const { value } = descriptor;

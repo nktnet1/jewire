@@ -3,8 +3,7 @@ import jewire from '../../src';
 const { TestClass } = jewire('./classes');
 
 describe('Instance methods', () => {
-  let instance;
-
+  let instance = null;
   beforeEach(() => {
     instance = new TestClass('Tam', ['Ham', 'Spam']);
   });

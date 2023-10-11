@@ -88,15 +88,15 @@ for errors: ${error}`
   const classes: string[] = [];
 
   ast.body.forEach((node) => {
-    if (node.type === 'FunctionDeclaration') {
-      functions.push(node.id!.name);
+    if (node.type === 'FunctionDeclaration' && node.id !== null) {
+      functions.push(node.id.name);
     } else if (node.type === 'VariableDeclaration') {
       node.declarations.forEach((declaration) => {
         if (declaration.id.type === 'Identifier') {
           variables.push(declaration.id.name);
         }
       });
-    } else if (node.type === 'ClassDeclaration' && node.id) {
+    } else if (node.type === 'ClassDeclaration' && node.id !== null) {
       classes.push(node.id.name);
     }
   });

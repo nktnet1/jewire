@@ -121,7 +121,7 @@ const { privateFunction } = jewire(
 ### 2.1. relativePath
 
 Path to the module relative to the current file, similar to CommonJS [require](https://nodejs.org/api/modules.html#requireid).
-- e.g. `'../animals/cats.js'`
+  - e.g. `'../animals/cats.js'`
 
 ### 2.2. options
 
@@ -150,7 +150,7 @@ process.cwd()
   </td>
     <td>
 <pre>
-(o) => JSON.parse(
+o => JSON.parse(
   JSON.stringify(
     o
   )

@@ -36,9 +36,7 @@ class TestClass {
   }
 
   static getObject() {
-    return {
-      key1: 'value1', key2: 2,
-    };
+    return { key1: 'value1', key2: 2 };
   }
 
   static getArrayOfObjects() {
@@ -63,3 +61,5 @@ class TestClass {
 Object.defineProperty(TestClass.prototype, 'makeThisNonConfigurable', {
   configurable: false,
 });
+
+Object.defineProperty(TestClass.prototype, 'null', {});
