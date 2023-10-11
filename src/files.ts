@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { parse } from 'meriyah';
 import { VALID_FILE_EXTENSIONS } from './config';
-import { ASTProgram, HiddenExportInfo } from './types';
+import { ASTProgram, HiddenExportInfo, Symbols } from './types';
 
 /**
  * Get the file path of the caller function.
@@ -52,6 +52,33 @@ export const findModuleFile = (modulePath: string, basePath: string): string => 
 };
 
 /**
+ * Retrieves all symbols from the given AST program
+ *
+ * @param ast Abstract Syntaxt Tree from parser
+ * @returns symbols consisting of variables, functions and classes
+ */
+const retrieveSymbolsFromAst = (ast: ASTProgram): Symbols => {
+  const variables: string[] = [];
+  const functions: string[] = [];
+  const classes: string[] = [];
+
+  ast.body.forEach((node) => {
+    if (node.type === 'FunctionDeclaration' && node.id !== null) {
+      functions.push(node.id.name);
+    } else if (node.type === 'VariableDeclaration') {
+      node.declarations.forEach((declaration) => {
+        if (declaration.id.type === 'Identifier') {
+          variables.push(declaration.id.name);
+        }
+      });
+    } else if (node.type === 'ClassDeclaration' && node.id !== null) {
+      classes.push(node.id.name);
+    }
+  });
+  return { variables, functions, classes };
+};
+
+/**
  * Retrieves the name of all global variables/functions/classes, including
  * those not exported in the file
  *
@@ -82,24 +109,6 @@ Please double check the file:
 for errors: ${error}`
     );
   }
-
-  const variables: string[] = [];
-  const functions: string[] = [];
-  const classes: string[] = [];
-
-  ast.body.forEach((node) => {
-    if (node.type === 'FunctionDeclaration' && node.id !== null) {
-      functions.push(node.id.name);
-    } else if (node.type === 'VariableDeclaration') {
-      node.declarations.forEach((declaration) => {
-        if (declaration.id.type === 'Identifier') {
-          variables.push(declaration.id.name);
-        }
-      });
-    } else if (node.type === 'ClassDeclaration' && node.id !== null) {
-      classes.push(node.id.name);
-    }
-  });
-
-  return { exports: { functions, variables, classes }, ast, code };
+  const symbols = retrieveSymbolsFromAst(ast);
+  return { symbols, ast, code };
 };

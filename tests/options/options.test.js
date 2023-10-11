@@ -23,7 +23,7 @@ test('Using different objectClone', () => {
 test('callback function upon success', () => {
   jewire('../variables/variables', {
     callback: (_, hE) => {
-      expect(hE.exports.variables).toStrictEqual([
+      expect(hE.symbols.variables).toStrictEqual([
         'numberFive', 'array', 'shallowObject', 'arrayOfObjects', 'deeplyNestedObject',
       ]);
     }

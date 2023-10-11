@@ -3,12 +3,14 @@ import rewire from 'rewire';
 
 export type { ASTProgram };
 
+export interface Symbols {
+  functions: string[];
+  variables: string[];
+  classes: string[];
+}
+
 export interface HiddenExportInfo {
-  exports: {
-    functions: string[];
-    variables: string[];
-    classes: string[];
-  }
+  symbols: Symbols;
   ast: ASTProgram;
   code: string;
 }

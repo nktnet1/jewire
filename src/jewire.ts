@@ -20,13 +20,13 @@ const jewire = (relativePath: string, options: Options = {}): Record<string, any
     options.basePath ?? path.dirname(getCallerFilePath())
   );
   const hiddenExportInfo = getModuleHiddenExports(filePath);
-  const hiddenExports = Object.values(hiddenExportInfo.exports).flat();
+  const hiddenExports = Object.values(hiddenExportInfo.symbols).flat();
   const rewireContext = rewire(filePath);
   const entities: Record<string, any> = {};
 
-  for (const hE of hiddenExports) {
-    const entity = rewireContext.__get__(hE);
-    entities[hE] = entityClone(entity, options.objectClone);
+  for (const hiddenExport of hiddenExports) {
+    const entity = rewireContext.__get__(hiddenExport);
+    entities[hiddenExport] = entityClone(entity, options.objectClone);
   }
 
   if (options.callback) {

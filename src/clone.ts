@@ -68,8 +68,14 @@ const functionClone = <T extends (...args: any[]) => any>(fn: T, clone: CloneFn)
 
  * @param target object instance to decorate methods around
  */
-function decorateClassMethodClone(target: any) {
-  const decorateMethod = (obj: Record<string, any>, key: string | symbol) => {
+function decorateClassMethodClone(target: any, clone: CloneFn) {
+  /**
+   * Ensure that the return values of all objects are cloned
+   *
+   * @param obj object whose method return values need to be cloned
+   * @param key name of the method whose return values will be cloned
+   */
+  const decorateMethod = (obj: Record<string, any>, key: string | symbol): void => {
     const descriptor = Reflect.getOwnPropertyDescriptor(obj, key);
     /* istanbul ignore next */
     if (!descriptor?.configurable) {
@@ -78,7 +84,7 @@ function decorateClassMethodClone(target: any) {
     const { value } = descriptor;
     if (typeof value === 'function' && value !== target) {
       descriptor.value = function (...args: any[]) {
-        return entityClone(value.apply(this, args));
+        return entityClone(value.apply(this, args), clone);
       };
       Object.defineProperty(obj, key, descriptor);
     }
@@ -107,13 +113,15 @@ function decorateClassMethodClone(target: any) {
  * @throws {Error} - An unsupported data type is encountered
  */
 /* istanbul ignore next */
-const classClone: CloneFn = <T>(obj: T): T => {
+const classClone = <T>(obj: T, objClone: CloneFn): T => {
   if (obj === null || typeof obj !== 'object') {
-    return decorateClassMethodClone(obj as any);
+    return decorateClassMethodClone(obj as any, objClone);
   }
   const props = Object.getOwnPropertyDescriptors(obj);
   for (const prop in props) {
-    props[prop].value = classClone(props[prop].value);
+    if (Object.prototype.hasOwnProperty.call(props, prop)) {
+      props[prop].value = classClone(props[prop].value, objClone);
+    }
   }
   return Object.create(
     Object.getPrototypeOf(obj),
@@ -131,7 +139,7 @@ const classClone: CloneFn = <T>(obj: T): T => {
 const functionOrClassClone = (functionOrClass: any, objClone: CloneFn) =>
   isFunction(functionOrClass)
     ? functionClone(functionOrClass, objClone)
-    : classClone(functionOrClass);
+    : classClone(functionOrClass, objClone);
 
 /**
  * Clones an entity for use with Jest expect.toStrictEqual
