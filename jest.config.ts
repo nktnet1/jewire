@@ -13,7 +13,7 @@ const config: Config = {
     '^.+\\.(cjs)?$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node', 'cjs', 'mjs'],
-  collectCoverageFrom: ['src/**/*.ts', '!tests', '!src/clone.ts'],
+  collectCoverageFrom: ['src/**/*.ts'],
 };
 
 export default config;
