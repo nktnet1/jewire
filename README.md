@@ -160,10 +160,9 @@ o => JSON.parse(
 </pre>
     </td>
     <td>
-      <code>
-        objectClone
-      </code>
-      (see <a href='src/clone.ts>clone.ts'>clone.ts</a>)
+      <code>objectClone</code>
+      <br />
+      (see <a href='src/clone.ts'>clone.ts</a>)
     </td>
 
   </tr>
