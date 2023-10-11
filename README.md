@@ -1,5 +1,6 @@
 <div align="center">
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f411d8e7d24448f3a7fa9be3e8eb8e97)](https://app.codacy.com/gh/nktnet1/jewire?utm_source=github.com&utm_medium=referral&utm_content=nktnet1/jewire&utm_campaign=Badge_Grade)
 # [![Jewire](logo.svg)](https://github.com/nktnet1/jewire)
 
 [![pipeline](https://github.com/nktnet1/jewire/actions/workflows/pipeline.yml/badge.svg)](https://github.com/nktnet1/jewire/actions/workflows/pipeline.yml)
