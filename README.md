@@ -59,7 +59,8 @@ Clone objects at runtime to remove false negatives in expect[.toStrictEqual](htt
 - [1. Installation](#1-installation)
 - [2. Usage](#2-usage)
     - [2.1. relativePath](#21-relativepath)
-    - [2.2. Options](#22-options)
+    - [2.2. options](#22-options)
+    - [2.3. return](#23-return)
 - [3. License](#3-license)
 - [4. Limitations](#4-limitations)
 - [5. Caveats](#5-caveats)
@@ -116,7 +117,6 @@ const { privateFunction } = jewire(
 </details>
 
 <br/>
-
 
 ### 2.1. relativePath
 
@@ -184,6 +184,27 @@ o => JSON.parse(
   </tr>
 </table>
 
+### 2.3. return
+
+The `jewire` function returns an object containing all named exports, including globally defined variables, functions and classes.
+
+If a callback function is provided, it will be called with two arguments:
+1. The rewire context, which is the return value of `rewire(modulePath)`. Please see the documentation for [rewire](https://github.com/jhnns/rewire) 
+2. An object containing information about all hidden exports, of the form:
+    ```javascript
+    {
+      symbols: {
+        variables: string[],
+        functions: string[],
+        classes: string[],
+      }
+      ast: ASTProgram, // Abstract Syntax Tree from Meriyah parser
+      code: string, // from fs.readFileSync(filePath)
+    }
+    ```
+    to provide the flexibility of extending upon `jewire`'s core functionality.
+
+In the event of errors, such as unknown file path or invalid module, a regular [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Error) object is thrown.
 
 ## 3. License
 
@@ -233,12 +254,17 @@ in the rewire module.
 **jewire** is a niche library designed to automark private functions in the
 submitted code of students using the Jest testing framework during the first
 two weeks of their studies in
-[COMP1531 Software Engineering Fundamentals](https://webcms3.cse.unsw.edu.au/COMP1531/23T2/outline).
-This is because `npm` and module imports/exports are not introduced until week 3 when
-students are more familiar with JavaScript as a programming language.
+[COMP1531 Software Engineering Fundamentals](https://webcms3.cse.unsw.edu.au/COMP1531/23T2/outline). <br />
+This is because `npm` and module imports/exports are not introduced until week 3, when
+students are considered to be more familiar with JavaScript as a programming language.
 
 **jewire** aims to simplify the process of using
 [rewire](https://github.com/jhnns/rewire)
 by removing the need to provide a file extension and absolute path, abstracting
 getter and setter methods and enabling relative module imports similar to CommonJS
-[require](https://nodejs.org/api/modules.html).
+[require](https://nodejs.org/api/modules.html).<br />
+This process requires reading the module twice - once to parse into an [Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree) using the [Meriyah](https://github.com/meriyah/meriyah) parser, and another from rewire as rewire's interface does not enable reusing the file content.
+
+**Jewire** reclones objects at runtime to allow the return values of functions and class methods to be compared using [Jest](https://jestjs.io)'s [.toStrictEqual](https://jestjs.io/docs/expect#tostrictequalvalue) matcher, which in the rewire module would yield *"Received: serializes to the same string"*. <br />
+The cause is Jest's utilisation of `node:vm` under the hood, which creates its own temporary context that overrides global classes such as `Array`, `Error` and `Date` to extend functionalities. For further details, visit Manuel Spigolon's [article](https://backend.cafe/should-you-use-jest-as-a-testing-library).
+
