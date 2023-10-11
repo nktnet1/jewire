@@ -36,7 +36,8 @@
     "mock",
     "require",
     "shim",
-    "hidden"
+    "hidden",
+    "comp1531"
   ],
   "author": "Khiet Tam Nguyen",
   "license": "MIT",

@@ -2,6 +2,50 @@
 
 # [![Jewire](logo.svg)](https://github.com/nktnet1/jewire)
 
+[![pipeline](https://github.com/nktnet1/jewire/actions/workflows/pipeline.yml/badge.svg)](https://github.com/nktnet1/jewire/actions/workflows/pipeline.yml)
+&nbsp;
+[![codecov](https://codecov.io/gh/nktnet1/jewire/branch/main/graph/badge.svg?token=RAC7SKJTGU)](https://codecov.io/gh/nktnet1/jewire)
+&nbsp;
+[![Maintainability](https://api.codeclimate.com/v1/badges/3ec8c0ddebe848926277/maintainability)](https://codeclimate.com/github/nktnet1/jewire/maintainability)
+&nbsp;
+[![Snyk Security](https://snyk.io/test/github/nktnet1/jewire/badge.svg)](https://snyk.io/test/github/nktnet1/jewire)
+&nbsp;
+[![GitHub top language](https://img.shields.io/github/languages/top/nktnet1/jewire)](https://github.com/search?q=repo%3Anktnet1%2Fjewire++language%3ATypeScript&type=code)
+
+[![NPM Version](https://img.shields.io/npm/v/jewire?logo=npm)](https://www.npmjs.com/package/jewire?activeTab=versions)
+&nbsp;
+[![install size](https://packagephobia.com/badge?p=jewire)](https://packagephobia.com/result?p=jewire)
+&nbsp;
+[![Depfu Dependencies](https://badges.depfu.com/badges/6c4074c4d23ad57ee2bfd9ff90456090/overview.svg)](https://depfu.com/github/nktnet1/jewire?project_id=39032)
+&nbsp;
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnktnet1%2Fjewire.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnktnet1%2Fjewire?ref=badge_shield)
+&nbsp;
+[![NPM License](https://img.shields.io/npm/l/jewire)](https://opensource.org/license/mit/)
+&nbsp;
+[![GitHub issues](https://img.shields.io/github/issues/nktnet1/jewire.svg?style=social)](https://github.com/nktnet1/jewire/issues)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nktnet1_jewire&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=nktnet1_jewire)
+&nbsp;
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f222c2e572fc41b7b45c3591c3575a9d)](https://app.codacy.com/gh/nktnet1/jewire/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+&nbsp;
+[![DeepSource](https://app.deepsource.com/gh/nktnet1/jewire.svg/?label=active+issues&show_trend=true&token=OTP6tE2be4X1kvxZRsxRh25e)](https://app.deepsource.com/gh/nktnet1/jewire/)
+&nbsp;
+[![codebeat badge](https://codebeat.co/badges/8bdb4562-0492-4c1c-8b02-e69c94373d60)](https://codebeat.co/projects/github-com-nktnet1-jewire-main)
+&nbsp;
+[![GitHub stars](https://img.shields.io/github/stars/nktnet1/jewire.svg?style=social)](https://github.com/nktnet1/jewire/stargazers)
+
+[![Downloads Total](https://badgen.net/npm/dt/jewire)](https://moiva.io/?npm=jewire)
+&nbsp;
+[![Downloads Total](https://badgen.net/npm/dy/jewire)](https://moiva.io/?npm=jewire)
+&nbsp;
+[![Downloads Monthly](https://badgen.net/npm/dm/jewire)](https://moiva.io/?npm=jewire)
+&nbsp;
+[![Downloads Weekly](https://badgen.net/npm/dw/jewire)](https://moiva.io/?npm=jewire)
+&nbsp;
+[![Downloads Daily](https://badgen.net/npm/dd/jewire)](https://moiva.io/?npm=jewire)
+
+---
+
 Access private functions, variables and classes from CommonJS modules
 
 Enable named exports with relative paths identical to CommonJS [require](https://nodejs.org/api/modules.html#requireid)
@@ -116,6 +160,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALING S IN THE SOFTWARE.
 ```
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnktnet1%2Fjewire.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnktnet1%2Fjewire?ref=badge_large)
 
 </details>
 
