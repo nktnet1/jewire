@@ -26,7 +26,7 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nktnet1_jewire&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=nktnet1_jewire)
 &nbsp;
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f222c2e572fc41b7b45c3591c3575a9d)](https://app.codacy.com/gh/nktnet1/jewire/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/65161ae4d1c646ed83c9ef47b0a11473)](https://app.codacy.com/gh/nktnet1/jewire/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 &nbsp;
 [![DeepSource](https://app.deepsource.com/gh/nktnet1/jewire.svg/?label=active+issues&show_trend=true&token=OTP6tE2be4X1kvxZRsxRh25e)](https://app.deepsource.com/gh/nktnet1/jewire/)
 &nbsp;
@@ -175,7 +175,7 @@ o => JSON.parse(
 <pre>
 (rC, hE) => {
   console.log(
-      rC, hE
+    rC, hE
   );
 }
 </pre>
@@ -230,13 +230,15 @@ in the rewire module.
 
 ## 5. Caveats
 
-**jewire** was designed to autotest private functions in the submitted code of students
-using the Jest testing framework during the first two weeks of their studies in
+**jewire** is a niche library designed to automark private functions in the
+submitted code of students using the Jest testing framework during the first
+two weeks of their studies in
 [COMP1531 Software Engineering Fundamentals](https://webcms3.cse.unsw.edu.au/COMP1531/23T2/outline).
 This is because `npm` and module imports/exports are not introduced until week 3 when
 students are more familiar with JavaScript as a programming language.
 
-**jewire** aims to simplify the process of using [rewire](https://github.com/jhnns/rewire)
-by removing the need to provide a file extension and absolute path, abstracting getter and
-setter methods and enabling relative module imports similar to CommonJS
+**jewire** aims to simplify the process of using
+[rewire](https://github.com/jhnns/rewire)
+by removing the need to provide a file extension and absolute path, abstracting
+getter and setter methods and enabling relative module imports similar to CommonJS
 [require](https://nodejs.org/api/modules.html).

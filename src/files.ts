@@ -3,6 +3,7 @@ import path from 'path';
 import { parse } from 'meriyah';
 import { VALID_FILE_EXTENSIONS } from './config';
 import { ASTProgram, HiddenExportInfo, Symbols } from './types';
+import { Statement } from 'meriyah/dist/src/estree';
 
 /**
  * Get the file path of the caller function.
@@ -52,30 +53,24 @@ export const findModuleFile = (modulePath: string, basePath: string): string => 
 };
 
 /**
- * Retrieves all symbols from the given AST program
+ * Appends the name of the node given to the appropriate symbol
  *
- * @param ast Abstract Syntaxt Tree from parser
+ * @param node - a node from the Abstract Syntaxt Tree
+ * @param symbols - object containing three arrays: functions/classes/variables
  * @returns symbols consisting of variables, functions and classes
  */
-const retrieveSymbolsFromAst = (ast: ASTProgram): Symbols => {
-  const variables: string[] = [];
-  const functions: string[] = [];
-  const classes: string[] = [];
-
-  ast.body.forEach((node) => {
-    if (node.type === 'FunctionDeclaration' && node.id !== null) {
-      functions.push(node.id.name);
-    } else if (node.type === 'VariableDeclaration') {
-      node.declarations.forEach((declaration) => {
-        if (declaration.id.type === 'Identifier') {
-          variables.push(declaration.id.name);
-        }
-      });
-    } else if (node.type === 'ClassDeclaration' && node.id !== null) {
-      classes.push(node.id.name);
-    }
-  });
-  return { variables, functions, classes };
+const retrieveSymbolsFromAst = (node: Statement, symbols: Symbols): void => {
+  if (node.type === 'FunctionDeclaration' && node.id !== null) {
+    symbols.functions.push(node.id.name);
+  } else if (node.type === 'VariableDeclaration') {
+    node.declarations.forEach((declaration) => {
+      if (declaration.id.type === 'Identifier') {
+        symbols.variables.push(declaration.id.name);
+      }
+    });
+  } else if (node.type === 'ClassDeclaration' && node.id !== null) {
+    symbols.classes.push(node.id.name);
+  }
 };
 
 /**
@@ -91,6 +86,7 @@ export const getModuleHiddenExports = (filePath: string): HiddenExportInfo => {
   if (code.length === 0) {
     throw new Error(`Module '${filePath}' is an empty file`);
   }
+
   let ast: ASTProgram;
   try {
     ast = parse(code);
@@ -106,9 +102,16 @@ ${code}
 =============================================
 Please double check the file:
     ${filePath}
-for errors: ${error}`
+for the error: ${error}`
     );
   }
-  const symbols = retrieveSymbolsFromAst(ast);
+  const symbols = {
+    variables: [],
+    functions: [],
+    classes: [],
+  };
+  for (const node of ast.body) {
+    retrieveSymbolsFromAst(node, symbols);
+  }
   return { symbols, ast, code };
 };
