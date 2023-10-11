@@ -28,7 +28,6 @@
     "hidden",
     "modules",
     "import",
-    "injection",
     "unit",
     "test",
     "fake",
@@ -36,7 +35,6 @@
     "mock",
     "require",
     "shim",
-    "hidden",
     "comp1531"
   ],
   "author": "Khiet Tam Nguyen",
