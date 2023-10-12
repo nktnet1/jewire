@@ -29,3 +29,26 @@ test('callback function upon success', () => {
     }
   });
 });
+
+test('callback function rewireContext return value is cloned', () => {
+  jewire('../functions/functions', {
+    callback: (rewireContext, _) => {
+      expect(rewireContext.__get__('getObject')()).toStrictEqual({
+        key1: 'value1',
+        key2: 2,
+      });
+      expect(rewireContext.__get__('getArrayOfObjects')()).toStrictEqual([
+        { name: 'Tam' },
+        { name: 'Ham' },
+      ]);
+      expect(rewireContext.__get__('getDeeplyNestedObject')()).toStrictEqual({
+        key1: 'value1',
+        key2: {
+          nested: {
+            array: [1, 2, 3],
+          },
+        }
+      });
+    }
+  });
+});

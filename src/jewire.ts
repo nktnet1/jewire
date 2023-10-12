@@ -21,12 +21,17 @@ const jewire = (relativePath: string, options: Options = {}): Record<string, any
   );
   const hiddenExportInfo = getModuleHiddenExports(filePath);
   const hiddenExports = Object.values(hiddenExportInfo.symbols).flat();
-  const rewireContext = rewire(filePath);
-  const entities: Record<string, any> = {};
+  const rewiredModule = rewire(filePath);
 
+  const rewireContext = {
+    __get__: (name: string) => entityClone(rewiredModule.__get__(name), options.objectClone),
+    __set__: rewiredModule.__set__,
+    __with__: rewiredModule.__with__,
+  };
+
+  const entities: Record<string, any> = {};
   for (const hiddenExport of hiddenExports) {
-    const entity = rewireContext.__get__(hiddenExport);
-    entities[hiddenExport] = entityClone(entity, options.objectClone);
+    entities[hiddenExport] = rewireContext.__get__(hiddenExport);
   }
 
   if (options.callback) {
