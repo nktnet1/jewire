@@ -78,7 +78,7 @@ npm install jewire
 
 ## 2. Usage
 
-Try with [Replit](https://replit.com/@nktnet1/jewire-example).
+Try with [Replit](https://replit.com/@nktnet1/jewire-example#index.js).
 
 ```
 jewire(relativePath, options);
@@ -128,7 +128,8 @@ const { privateFunction } = jewire(
 Path to the module relative to the current file, similar to CommonJS [require](https://nodejs.org/api/modules.html#requireid). For example,
   - `'../animals/cats.js'`
   - `'./common.cjs'`
-  - `'minimal'` *(checks `'./minimal.js'` if it exist, then `'minimal.cjs'`)*
+  - `'minimal'` 
+    -  jewire will look for `'./minimal.js'` before `'minimal.cjs'`, then throws an Error if neither files exist.
 
 Note that `option.basePath` can be provided to alter this behaviour.
 
@@ -244,7 +245,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALING S IN THE SOFTWARE.
+DEALINGS IN THE SOFTWARE.
 ```
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnktnet1%2Fjewire.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnktnet1%2Fjewire?ref=badge_large)
@@ -284,9 +285,9 @@ This process requires reading the module twice - once to parse into an [Abstract
 
 **Jewire** reclones objects at runtime to allow the return values of rewired functions and class methods to be compared using [Jest](https://jestjs.io)'s [.toStrictEqual](https://jestjs.io/docs/expect#tostrictequalvalue) matcher, which in the rewire module would yield *"Received: serializes to the same string"*.
 
-The cause is Jest's utilisation of `node:vm` under the hood, which creates its own temporary context that overrides global classes such as `Array`, `Error` and `Date` to extend functionalities. These global classes differ from those that are returned from [rewire](https://github.com/jhnns/rewire)'s private fucntions, as depicted in the following GitHub issues made by [@geogezlei](https://github.com/georgezlei):
+The cause is Jest's utilisation of `node:vm` under the hood, which creates its own temporary context that overrides global classes such as `Array`, `Error` and `Date` to extend functionalities. These global classes differ from those that are returned from [rewire](https://github.com/jhnns/rewire)'s private functions, as depicted in the following GitHub issues made by [@geogezlei](https://github.com/georgezlei):
 - https://github.com/jhnns/rewire/issues/164
 - https://github.com/jestjs/jest/issues/8446
 
-For further details and explanation about this problem, please visit Manuel Spigolon's [article](https://backend.cafe/should-you-use-jest-as-a-testing-library) about the use of `instanceof` operator in Jest.
+For further details and explanation about this problem, please visit Manuel Spigolon's [article](https://backend.cafe/should-you-use-jest-as-a-testing-library) about the use of the `instanceof` operator in Jest.
 

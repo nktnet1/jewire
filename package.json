@@ -4,7 +4,7 @@
     "type": "git",
     "url": "https://github.com/nktnet1/jewire"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "files": [
     "dist"
   ],
@@ -42,10 +42,10 @@
   "description": "Rewire private modules for use within Jest",
   "devDependencies": {
     "@types/jest": "^29.5.5",
-    "@types/node": "^20.8.3",
+    "@types/node": "^20.8.4",
     "@types/rewire": "^2.5.28",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
-    "@typescript-eslint/parser": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.5",
     "eslint": "^8.51.0",
     "eslint-plugin-jest": "^27.4.2",
     "jest": "^29.7.0",
