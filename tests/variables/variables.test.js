@@ -56,5 +56,6 @@ test('Empty array', () => {
 });
 
 test('Undefined variable', () => {
-  expect(undefinedVariable).toStrictEqual(undefined);
+  const undef = undefined;
+  expect(undefinedVariable).toStrictEqual(undef);
 });
