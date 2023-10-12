@@ -52,6 +52,8 @@ Enable named exports with relative paths identical to CommonJS [require](https:/
 
 Clone objects at runtime to remove false negatives in expect[.toStrictEqual](https://jestjs.io/docs/expect#tostrictequalvalue)
 
+[![Try with Replit](https://replit.com/badge?caption=Try%20with%20Replit)](https://replit.com/@nktnet1/jewire-example#index.js)
+
 </div>
 
 ---
@@ -64,6 +66,9 @@ Clone objects at runtime to remove false negatives in expect[.toStrictEqual](htt
 - [3. License](#3-license)
 - [4. Limitations](#4-limitations)
 - [5. Caveats](#5-caveats)
+    - [5.1. Purpose](#51-purpose)
+    - [5.2. Rationale](#52-rationale)
+    - [5.3. Rewire and Jest](#53-rewire-and-jest)
 
 ## 1. Installation
 
@@ -73,7 +78,7 @@ npm install jewire
 
 ## 2. Usage
 
-<!-- Try with [replit](). -->
+Try with [Replit](https://replit.com/@nktnet1/jewire-example).
 
 ```
 jewire(relativePath, options);
@@ -120,8 +125,12 @@ const { privateFunction } = jewire(
 
 ### 2.1. relativePath
 
-Path to the module relative to the current file, similar to CommonJS [require](https://nodejs.org/api/modules.html#requireid).
-  - e.g. `'../animals/cats.js'`
+Path to the module relative to the current file, similar to CommonJS [require](https://nodejs.org/api/modules.html#requireid). For example,
+  - `'../animals/cats.js'`
+  - `'./common.cjs'`
+  - `'minimal'` *(checks `'./minimal.js'` if it exist, then `'minimal.cjs'`)*
+
+Note that `option.basePath` can be provided to alter this behaviour.
 
 ### 2.2. options
 
@@ -189,7 +198,7 @@ o => JSON.parse(
 The `jewire` function returns an object containing all named exports, including globally defined variables, functions and classes.
 
 If a callback function is provided, it will be called with two arguments:
-1. The rewire context, which is the return value of `rewire(modulePath)`. Please see the documentation for [rewire](https://github.com/jhnns/rewire) 
+1. The rewire context, which is the return value of `rewire(modulePath)`, although with the `__get__` function being modified to apply `objectClone`. Please refer to the documentation for [rewire](https://github.com/jhnns/rewire) for further details.
 2. An object containing information about all hidden exports, of the form:
     ```javascript
     {
@@ -261,7 +270,7 @@ two weeks of their studies in
 This is because `npm` and module imports/exports are not introduced until week 3, when
 students are considered to be more familiar with JavaScript as a programming language.
 
-### 5.2. Simplification
+### 5.2. Rationale
 
 **jewire** aims to simplify the process of using
 [rewire](https://github.com/jhnns/rewire)
