@@ -6,7 +6,7 @@
 &nbsp;
 [![codecov](https://codecov.io/gh/nktnet1/jewire/branch/main/graph/badge.svg?token=RAC7SKJTGU)](https://codecov.io/gh/nktnet1/jewire)
 &nbsp;
-[![Maintainability](https://api.codeclimate.com/v1/badges/3ec8c0ddebe848926277/maintainability)](https://codeclimate.com/github/nktnet1/jewire/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2cc2478a1b5a2f293149/maintainability)](https://codeclimate.com/github/nktnet1/jewire/maintainability)
 &nbsp;
 [![Snyk Security](https://snyk.io/test/github/nktnet1/jewire/badge.svg)](https://snyk.io/test/github/nktnet1/jewire)
 &nbsp;

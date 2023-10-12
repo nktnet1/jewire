@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { parse } from 'meriyah';
 import { VALID_FILE_EXTENSIONS } from './config';
-import { ASTProgram, HiddenExportInfo, Symbols } from './types';
+import { HiddenExportInfo, Symbols } from './types';
 import { Statement } from 'meriyah/dist/src/estree';
 
 /**
@@ -33,23 +33,21 @@ export const getCallerFilePath = (): string => {
  * @throws {Error} If the file is not found
  */
 export const findModuleFile = (modulePath: string, basePath: string): string => {
-  const filePathOriginal = path.join(basePath, modulePath);
-  let filePath = filePathOriginal;
-  if (!path.extname(filePathOriginal)) {
+  const filePath = path.join(basePath, modulePath);
+  if (fs.existsSync(filePath)) {
+    return filePath;
+  }
+  if (!path.extname(filePath)) {
     for (const ext of VALID_FILE_EXTENSIONS) {
-      filePath = path.join(basePath, `${modulePath}${ext}`);
-      if (fs.existsSync(filePath)) {
-        return filePath;
+      const extFilePath = path.join(basePath, `${modulePath}${ext}`);
+      if (fs.existsSync(extFilePath)) {
+        return extFilePath;
       }
     }
   }
-  if (!fs.existsSync(filePath)) {
-    const noExt = filePath.replace(/\.[^/.]+$/, '');
-    throw new Error(
-      `No such file '${noExt}' with matching extensions [${VALID_FILE_EXTENSIONS}]`
-    );
-  }
-  return filePath;
+  throw new Error(
+    `No such file '${filePath}' with matching extensions [${VALID_FILE_EXTENSIONS}]`
+  );
 };
 
 /**
@@ -60,36 +58,42 @@ export const findModuleFile = (modulePath: string, basePath: string): string => 
  * @returns symbols consisting of variables, functions and classes
  */
 const retrieveSymbolsFromAst = (node: Statement, symbols: Symbols): void => {
-  if (node.type === 'FunctionDeclaration' && node.id !== null) {
-    symbols.functions.push(node.id.name);
-  } else if (node.type === 'VariableDeclaration') {
-    node.declarations.forEach((declaration) => {
-      if (declaration.id.type === 'Identifier') {
-        symbols.variables.push(declaration.id.name);
+  switch (node.type) {
+    case 'VariableDeclaration':
+      node.declarations.forEach((declaration) => {
+        if (declaration.id.type === 'Identifier') {
+          symbols.variables.push(declaration.id.name);
+        }
+      });
+      break;
+    case 'FunctionDeclaration':
+      if (node.id !== null) {
+        symbols.functions.push(node.id.name);
       }
-    });
-  } else if (node.type === 'ClassDeclaration' && node.id !== null) {
-    symbols.classes.push(node.id.name);
+      break;
+    case 'ClassDeclaration':
+      if (node.id !== null) {
+        symbols.classes.push(node.id.name);
+      }
   }
 };
 
 /**
- * Retrieves the name of all global variables/functions/classes, including
- * those not exported in the file
+ * Parses code from a file and generates an Abstract Syntax Tree (AST)
  *
- * @param {string} filePath - The path to the JavaScript module file
- * @returns {HiddenExportInfo} - Object of string[] for hidden exports
- * @throws {Error} If the module file is empty or cannot be parsed.
+ * @param {string} filePath - The absolute path to the file
+ * @throws {Error} If the file is empty or contains errors while parsing
+ * @returns {Object} object with properties:
+ * - `ast` (ASTProgram): The Abstract Syntax Tree (AST) representing the code
+ * - `code` (string): The original code read from the file
  */
-export const getModuleHiddenExports = (filePath: string): HiddenExportInfo => {
+const createAbstractSyntaxTree = (filePath: string) => {
   const code = fs.readFileSync(filePath, 'utf-8');
   if (code.length === 0) {
     throw new Error(`Module '${filePath}' is an empty file`);
   }
-
-  let ast: ASTProgram;
   try {
-    ast = parse(code);
+    return { ast: parse(code), code };
   } catch (error: any) {
     throw new Error(
 `>>> Failed to parse code:
@@ -105,11 +109,23 @@ Please double check the file:
 for the error: ${error}`
     );
   }
+};
+
+/**
+ * Retrieves the name of all global variables/functions/classes, including
+ * those not exported in the file
+ *
+ * @param {string} filePath - The path to the JavaScript module file
+ * @returns {HiddenExportInfo} - Object of string[] for hidden exports
+ * @throws {Error} If the module file is empty or cannot be parsed.
+ */
+export const getModuleHiddenExports = (filePath: string): HiddenExportInfo => {
   const symbols = {
     variables: [],
     functions: [],
     classes: [],
   };
+  const { ast, code } = createAbstractSyntaxTree(filePath);
   for (const node of ast.body) {
     retrieveSymbolsFromAst(node, symbols);
   }

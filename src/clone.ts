@@ -20,23 +20,15 @@ export const isFunction = (functionOrClass: any): boolean => {
  * @returns {T} - A deep clone of the input object or array.
  */
 const objectClone: CloneFn = <T>(obj: T): T => {
-  if (obj === null || typeof obj !== 'object') {
+  if (!obj || typeof obj !== 'object') {
     return obj;
   }
-
   if (Array.isArray(obj)) {
-    const cloneArr: any[] = [];
-    for (let i = 0; i < obj.length; i++) {
-      cloneArr[i] = objectClone(obj[i]);
-    }
-    return cloneArr as any as T;
+    return obj.map(objectClone) as T;
   }
-
   const cloneObj: Record<string, any> = {};
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      cloneObj[key] = objectClone(obj[key]);
-    }
+  for (const [key, value] of Object.entries(obj)) {
+    cloneObj[key] = objectClone(value);
   }
   return cloneObj as T;
 };
@@ -114,19 +106,14 @@ function decorateClassMethodClone(target: any, clone: CloneFn) {
  */
 /* istanbul ignore next */
 const classClone = <T>(obj: T, objClone: CloneFn): T => {
-  if (obj === null || typeof obj !== 'object') {
+  if (obj ?? typeof obj !== 'object') {
     return decorateClassMethodClone(obj as any, objClone);
   }
   const props = Object.getOwnPropertyDescriptors(obj);
-  for (const prop in props) {
-    if (Object.prototype.hasOwnProperty.call(props, prop)) {
-      props[prop].value = classClone(props[prop].value, objClone);
-    }
+  for (const prop of Object.keys(props)) {
+    props[prop].value = classClone(props[prop].value, objClone);
   }
-  return Object.create(
-    Object.getPrototypeOf(obj),
-    props
-  );
+  return Object.create(Object.getPrototypeOf(obj), props);
 };
 
 /**
