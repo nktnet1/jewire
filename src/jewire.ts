@@ -24,9 +24,8 @@ const jewire = (relativePath: string, options: Options = {}): Record<string, any
   const rewiredModule = rewire(filePath);
 
   const rewireContext = {
+    ...rewiredModule,
     __get__: (name: string) => entityClone(rewiredModule.__get__(name), options.objectClone),
-    __set__: rewiredModule.__set__,
-    __with__: rewiredModule.__with__,
   };
 
   const entities: Record<string, any> = {};

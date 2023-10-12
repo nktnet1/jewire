@@ -75,6 +75,9 @@ const retrieveSymbolsFromAst = (node: Statement, symbols: Symbols): void => {
       if (node.id !== null) {
         symbols.classes.push(node.id.name);
       }
+      break;
+    default:
+      break;
   }
 };
 
