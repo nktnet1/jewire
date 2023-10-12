@@ -6,6 +6,10 @@ const {
   shallowObject,
   arrayOfObjects,
   deeplyNestedObject,
+  nullVariable,
+  emptyObject,
+  emptyArray,
+  undefinedVariable,
 } = jewire('./variables');
 
 test('variables are imported correctly', () => {
@@ -13,6 +17,7 @@ test('variables are imported correctly', () => {
 });
 
 test('arrays are imported correctly', () => {
+  expect(array).toBeInstanceOf(Array);
   expect(array).toStrictEqual([1, 2, 3]);
 });
 
@@ -34,4 +39,22 @@ test('nested object passes strict equality', () => {
 
 test('Array of Objects', () => {
   expect(arrayOfObjects).toStrictEqual([{ name: 'Tam', age: 22 }, { name: 'Spam', age: 23 }]);
+});
+
+test('Null variable', () => {
+  expect(nullVariable).toStrictEqual(null);
+});
+
+test('Empty object', () => {
+  expect(emptyObject).toBeInstanceOf(Object);
+  expect(emptyObject).toStrictEqual({});
+});
+
+test('Empty array', () => {
+  expect(emptyArray).toBeInstanceOf(Array);
+  expect(emptyArray).toStrictEqual([]);
+});
+
+test('Undefined variable', () => {
+  expect(undefinedVariable).toStrictEqual(undefined);
 });

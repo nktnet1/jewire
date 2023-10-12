@@ -24,7 +24,15 @@ test('callback function upon success', () => {
   jewire('../variables/variables', {
     callback: (_, hE) => {
       expect(hE.symbols.variables).toStrictEqual([
-        'numberFive', 'array', 'shallowObject', 'arrayOfObjects', 'deeplyNestedObject',
+        'numberFive',
+        'array',
+        'shallowObject',
+        'arrayOfObjects',
+        'deeplyNestedObject',
+        'nullVariable',
+        'emptyObject',
+        'emptyArray',
+        'undefinedVariable',
       ]);
     }
   });

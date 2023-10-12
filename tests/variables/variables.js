@@ -19,3 +19,11 @@ const deeplyNestedObject = {
     },
   }
 };
+
+const nullVariable = null;
+
+const emptyObject = {};
+
+const emptyArray = [];
+
+const undefinedVariable = undefined;

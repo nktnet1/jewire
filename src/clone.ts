@@ -24,7 +24,8 @@ const objectClone: CloneFn = <T>(obj: T): T => {
     return obj;
   }
   if (Array.isArray(obj)) {
-    return obj.map(objectClone) as T;
+    // Empty array doesn't clone properly in Jest with just map
+    return (obj.length === 0 ? [] : [...obj.map(objectClone)]) as T;
   }
   const cloneObj: Record<string, any> = {};
   for (const [key, value] of Object.entries(obj)) {
