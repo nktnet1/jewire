@@ -129,7 +129,7 @@ Path to the module relative to the current file, similar to CommonJS [require](h
 - `'../animals/cats.js'`
 - `'./common.cjs'`
 - `'minimal'`
-    -  `jewire` will look for `'./minimal.js'` before `'minimal.cjs'`
+    -  `jewire` will look for `'./minimal.js'` before `'./minimal.cjs'`
 
 Note that `option.basePath` can be provided to alter this behaviour.
 
@@ -145,7 +145,7 @@ Note that `option.basePath` can be provided to alter this behaviour.
 
   <tr>
     <td>basePath</td>
-    <td>Absolute path to the module.</td>
+    <td>Absolute path to the module's directory</td>
     <td>
 <pre>
 process.cwd()
@@ -209,7 +209,7 @@ If a callback function is provided, it will be called with two arguments:
         classes: string[],
       }
       ast: ASTProgram, // Abstract Syntax Tree from Meriyah parser
-      code: string, // from fs.readFileSync(filePath)
+      code: string, // return value of fs.readFileSync(filePath)
     }
     ```
     to provide the flexibility of extending upon `jewire`'s core functionality.
@@ -265,11 +265,12 @@ in the rewire module.
 
 **jewire** is a niche library designed to automark private functions in the
 submitted code of students using the Jest testing framework during the first
-two weeks of their studies in
+2 weeks of their studies in
 [COMP1531 Software Engineering Fundamentals](https://webcms3.cse.unsw.edu.au/COMP1531/23T2/outline).
 
-This is because `npm` and module imports/exports are not introduced until week 3, when
-students are considered to be more familiar with JavaScript as a programming language.
+This is because `npm` and module imports/exports are not introduced until week
+3, when students are considered to be more familiar with JavaScript as a
+programming language.
 
 ### 5.2. Rationale
 
@@ -283,7 +284,12 @@ This process requires reading the module twice - once to parse into an [Abstract
 
 ### 5.3. Rewire and Jest
 
-**Jewire** reclones objects at runtime to allow the return values of rewired functions and class methods to be compared using [Jest](https://jestjs.io)'s [.toStrictEqual](https://jestjs.io/docs/expect#tostrictequalvalue) matcher, which in the rewire module would yield *"Received: serializes to the same string"*.
+**Jewire** reclones objects at runtime to allow the return values of rewired
+functions and class methods to be compared using
+[Jest](https://jestjs.io)'s
+expect[.toStrictEqual](https://jestjs.io/docs/expect#tostrictequalvalue) matcher,
+which in the rewire module would yield *"Received: serializes to the same
+string"*.
 
 The cause is Jest's utilisation of `node:vm` under the hood, which creates its own temporary context that overrides global classes such as `Array`, `Error` and `Date` to extend functionalities. These global classes differ from those that are returned from [rewire](https://github.com/jhnns/rewire)'s private functions, as depicted in the following GitHub issues made by [@geogezlei](https://github.com/georgezlei):
 - https://github.com/jhnns/rewire/issues/164
