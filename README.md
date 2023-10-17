@@ -126,10 +126,10 @@ const { privateFunction } = jewire(
 ### 2.1. relativePath
 
 Path to the module relative to the current file, similar to CommonJS [require](https://nodejs.org/api/modules.html#requireid). For example,
-  - `'../animals/cats.js'`
-  - `'./common.cjs'`
-  - `'minimal'` 
-    -  jewire will look for `'./minimal.js'` before `'minimal.cjs'`, then throws an Error if neither files exist.
+- `'../animals/cats.js'`
+- `'./common.cjs'`
+- `'minimal'`
+    -  `jewire` will look for `'./minimal.js'` before `'minimal.cjs'`
 
 Note that `option.basePath` can be provided to alter this behaviour.
 
