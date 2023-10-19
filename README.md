@@ -105,7 +105,7 @@ Using a different basePath
 
 ```javascript
 const { privateFunction } = jewire(
-  '../src/private-module.cjs',
+  'private-module',
   { basePath: process.cwd() }
 );
 ```
@@ -114,7 +114,7 @@ Using a different clone function from the default `clone.objectClone`:
 
 ```javascript
 const { privateFunction } = jewire(
-  '../src/private-module.cjs',
+  'private-module',
   { objectClone: (obj) => JSON.parse(JSON.stringify(obj)) }
 );
 ```
