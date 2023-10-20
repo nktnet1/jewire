@@ -36,7 +36,7 @@
 
 [![Downloads Total](https://badgen.net/npm/dt/jewire)](https://moiva.io/?npm=jewire)
 &nbsp;
-[![Downloads Total](https://badgen.net/npm/dy/jewire)](https://moiva.io/?npm=jewire)
+[![Downloads Yearly](https://badgen.net/npm/dy/jewire)](https://moiva.io/?npm=jewire)
 &nbsp;
 [![Downloads Monthly](https://badgen.net/npm/dm/jewire)](https://moiva.io/?npm=jewire)
 &nbsp;
