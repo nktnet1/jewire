@@ -1,8 +1,7 @@
-import path from 'path';
 import rewire from 'rewire';
 import entityClone from './clone';
 import { Options } from './types';
-import { findModuleFile, getCallerFilePath, getModuleHiddenExports } from './files';
+import { findModuleFile, getCallerDirname, getModuleHiddenExports } from './files';
 
 /**
  * Leverages rewire to extract hidden exports from a JavaScript module, but
@@ -16,8 +15,8 @@ import { findModuleFile, getCallerFilePath, getModuleHiddenExports } from './fil
  */
 const jewire = (relativePath: string, options: Options = {}): Record<string, any> => {
   const filePath = findModuleFile(
-    relativePath,
-    options.basePath ?? path.dirname(getCallerFilePath())
+    options.basePath ?? getCallerDirname(),
+    relativePath
   );
   const hiddenExportInfo = getModuleHiddenExports(filePath);
   const hiddenExports = Object.values(hiddenExportInfo.symbols).flat();
