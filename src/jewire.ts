@@ -1,6 +1,6 @@
 import rewire from 'rewire';
 import entityClone from './clone';
-import { Options } from './types';
+import { JewireEntities, Options } from './types';
 import { findModuleFile, getCallerDirname, getModuleHiddenExports } from './files';
 
 /**
@@ -11,29 +11,28 @@ import { findModuleFile, getCallerDirname, getModuleHiddenExports } from './file
  *
  * @param {string} relativePath - the name or path of the module, e.g. ./arrays
  * @param {Options} [options] - options for jewire as defined in types.ts
- * @returns {Record<string, any>} - Named exports from the file
+ * @returns {JewireEntities} - Named exports from the file
  */
-const jewire = (relativePath: string, options: Options = {}): Record<string, any> => {
+const jewire = (relativePath: string, options: Options = {}): JewireEntities => {
   const filePath = findModuleFile(
     options.basePath ?? getCallerDirname(),
     relativePath
   );
   const hiddenExportInfo = getModuleHiddenExports(filePath);
   const hiddenExports = Object.values(hiddenExportInfo.symbols).flat();
-  const rewiredModule = rewire(filePath);
+  const rewireModule = rewire(filePath);
 
-  const rewireContext = {
-    ...rewiredModule,
-    __get__: (name: string) => entityClone(rewiredModule.__get__(name), options.objectClone),
+  const jewireGetter = (name: string) => entityClone(rewireModule.__get__(name), options.objectClone);
+
+  const entities: JewireEntities = {
+    __jewireContext__: {
+      rewire: rewireModule,
+      hiddenExportInfo,
+      jewireGetter,
+    }
   };
-
-  const entities: Record<string, any> = {};
   for (const hiddenExport of hiddenExports) {
-    entities[hiddenExport] = rewireContext.__get__(hiddenExport);
-  }
-
-  if (options.callback) {
-    options.callback(rewireContext, hiddenExportInfo);
+    entities[hiddenExport] = jewireGetter(hiddenExport);
   }
 
   return entities;

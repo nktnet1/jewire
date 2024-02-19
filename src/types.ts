@@ -15,15 +15,19 @@ export interface HiddenExportInfo {
   code: string;
 }
 
-export type JewireCallback = (
-  rewireContext: ReturnType<typeof rewire>,
-  hiddenExportInfo: HiddenExportInfo
-) => void;
-
 export type CloneFn = <T>(object: T) => T;
 
 export interface Options {
   basePath?: string;
   objectClone?: CloneFn;
-  callback?: JewireCallback;
+}
+
+export interface JewireEntities {
+  __jewireContext__: {
+    rewire: ReturnType<typeof rewire>,
+    hiddenExportInfo: HiddenExportInfo
+    jewireGetter: (name: string) => any;
+  }
+
+  [key: string]: any;
 }
