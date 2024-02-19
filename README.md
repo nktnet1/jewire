@@ -123,7 +123,7 @@ const { privateFunction } = jewire(
 
 <br/>
 
-### 2.1. relativePath
+### 2.1. Parameter: relativePath
 
 Path to the module relative to the current file, similar to CommonJS [require](https://nodejs.org/api/modules.html#requireid). For example,
 - `'../animals/cats.js'`
@@ -133,7 +133,7 @@ Path to the module relative to the current file, similar to CommonJS [require](h
 
 Note that `option.basePath` can be provided to alter this behaviour.
 
-### 2.2. options
+### 2.2. Parameter: options
 
 <table>
   <tr>
@@ -176,31 +176,17 @@ o => JSON.parse(
     </td>
 
   </tr>
-  <tr>
-    <td>callback</td>
-    <td>
-        Callback function with further context about the private module if the import is successful.
-    </td>
-    <td>
-<pre>
-(rC, hE) => {
-  console.log(
-    rC, hE
-  );
-}
-</pre>
-    </td>
-    <td><code>undefined</code></td>
-  </tr>
 </table>
 
-### 2.3. return
+### 2.3. Return Object
 
 The `jewire` function returns an object containing all named exports, including globally defined variables, functions and classes.
 
-If a callback function is provided, it will be called with two arguments:
-1. The rewire context, which is the return value of `rewire(modulePath)`, although with the `__get__` function being modified to apply `objectClone`. Please refer to the documentation for [rewire](https://github.com/jhnns/rewire) for further details.
-2. An object containing information about all hidden exports, of the form:
+The returned object also contains the key `__jewireContext__`, which is an object with the following properties:
+
+1. `rewire`: the return value of `rewire(modulePath)`. Please refer to the documentation for [rewire](https://github.com/jhnns/rewire) for further details.
+2. `hiddenExportInfo`: An object containing information about all hidden exports, of the form:
+
     ```javascript
     {
       symbols: {
@@ -212,7 +198,9 @@ If a callback function is provided, it will be called with two arguments:
       code: string, // return value of fs.readFileSync(filePath)
     }
     ```
-    to provide the flexibility of extending upon `jewire`'s core functionality.
+3. `jewireGetter`: the internal function used to deepclone and return objects.
+
+### 2.4. Errors
 
 If an unknown file path is provided, the given file is empty or the module contains invalid code such as syntax errors, a default [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Error) object is thrown.
 
