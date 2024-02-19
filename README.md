@@ -180,9 +180,9 @@ o => JSON.parse(
 
 ### 2.3. Return Object
 
-The `jewire` function returns an object containing all named exports, including globally defined variables, functions and classes.
+All named exports, including globally defined variables, functions and classes are returned as keys within an object.
 
-The returned object also contains the key `__jewireContext__`, which is an object with the following properties:
+Additionally, the returned object contains the key `__jewireContext__` with the values being another object with the following properties:
 
 1. `rewire`: the return value of `rewire(modulePath)`. Please refer to the documentation for [rewire](https://github.com/jhnns/rewire) for further details.
 2. `hiddenExportInfo`: An object containing information about all hidden exports, of the form:
@@ -198,7 +198,7 @@ The returned object also contains the key `__jewireContext__`, which is an objec
       code: string, // return value of fs.readFileSync(filePath)
     }
     ```
-3. `jewireGetter`: the internal function used to deepclone and return objects.
+3. `jewireGetter`: the internal function used by jewire to retrieve objects. It has the same prototype as [`rewireModule.__get__`](https://github.com/jhnns/rewire?tab=readme-ov-file#rewiredmodule__get__name-string-), although objects are deep cloned using either jewire's default clone function or, if provided, `options.objectClone`.
 
 ### 2.4. Errors
 
