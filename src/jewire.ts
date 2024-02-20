@@ -22,7 +22,15 @@ const jewire = (relativePath: string, options: Options = {}): JewireEntities => 
   const hiddenExports = Object.values(hiddenExportInfo.symbols).flat();
   const rewireModule = rewire(filePath);
 
-  const jewireGetter = (name: string) => entityClone(rewireModule.__get__(name), options.objectClone);
+  /**
+   * The internal function used by jewire to retrieve objects. It has the same
+   * prototype as rewireModule.__get__, although objects are deep-cloned.
+   *
+   * @param {string} name the name of the object to retrieve
+   * @returns {any} the retrieved object
+   */
+  const jewireGetter = (name: string): any =>
+    entityClone(rewireModule.__get__(name), options.objectClone);
 
   const entities: JewireEntities = {
     __jewireContext__: {
