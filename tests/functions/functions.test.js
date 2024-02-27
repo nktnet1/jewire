@@ -41,3 +41,7 @@ test('object return type is consistent', () => {
 test('Array of Objects', () => {
   expect(getArrayOfObjects()).toStrictEqual([{ name: 'Tam' }, { name: 'Ham' }]);
 });
+
+test.only('Function retains name', () => {
+  expect(getArrayOfObjects.name).toStrictEqual('getArrayOfObjects');
+});
