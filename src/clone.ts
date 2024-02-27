@@ -47,19 +47,25 @@ const objectClone: CloneFn = <T>(obj: T): T => {
  * @returns A jewirified function.
  */
 const functionClone = <T extends (...args: any[]) => any>(fn: T, clone: CloneFn) => {
-  const newFn = (
+  /**
+   * Defines a new wrapper function that deep-clones the return value at run time
+   *
+   * @param args the arguments to be forwarded to the functions we are cloning
+   * @returns the results of the function, deep copied at run time.
+   */
+  const wrapperClonedFunction = (
     ...args: Parameters<T>
   ): ReturnType<T> => {
     const result = fn(...args);
     return result && typeof result === 'object' ? clone(result) : result;
   };
-  Object.defineProperty(newFn, 'name', {
+  Object.defineProperty(wrapperClonedFunction, 'name', {
     value: fn.name,
     writable: false,
     enumerable: false,
     configurable: true,
   });
-  return newFn;
+  return wrapperClonedFunction;
 };
 
 /**
