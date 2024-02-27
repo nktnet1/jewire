@@ -46,11 +46,20 @@ const objectClone: CloneFn = <T>(obj: T): T => {
  * @param clone - The deep cloning function (defaulting to `deepClone`).
  * @returns A jewirified function.
  */
-const functionClone = <T extends (...args: any[]) => any>(fn: T, clone: CloneFn) => (
-  ...args: Parameters<T>
-): ReturnType<T> => {
-  const result = fn(...args);
-  return result && typeof result === 'object' ? clone(result) : result;
+const functionClone = <T extends (...args: any[]) => any>(fn: T, clone: CloneFn) => {
+  const newFn = (
+    ...args: Parameters<T>
+  ): ReturnType<T> => {
+    const result = fn(...args);
+    return result && typeof result === 'object' ? clone(result) : result;
+  };
+  Object.defineProperty(newFn, 'name', {
+    value: fn.name,
+    writable: false,
+    enumerable: false,
+    configurable: true,
+  });
+  return newFn;
 };
 
 /**
