@@ -54,7 +54,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "meriyah": "^4.3.9",
+    "meriyah": "^4.4.0",
     "rewire": "^7.0.0"
   }
 }
