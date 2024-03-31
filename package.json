@@ -42,7 +42,7 @@
   "description": "Rewire private modules for use within Jest.",
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.11.28",
+    "@types/node": "^20.12.2",
     "@types/rewire": "^2.5.30",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
