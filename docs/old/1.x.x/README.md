@@ -214,7 +214,7 @@ If a callback function is provided, it will be called with two arguments:
     ```
     to provide the flexibility of extending upon `jewire`'s core functionality.
 
-If an unknown file path is provided, the given file is empty or the module contains invalid code such as syntax errors, a default [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Error) object is thrown.
+If an unknown file path is provided or the module contains invalid code such as syntax errors, a default [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Error) object is thrown.
 
 ## 3. License
 
