@@ -41,20 +41,20 @@
   "license": "MIT",
   "description": "Rewire private modules for use within Jest.",
   "devDependencies": {
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.14.11",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.5.5",
     "@types/rewire": "^2.5.30",
-    "@typescript-eslint/eslint-plugin": "^7.16.1",
-    "@typescript-eslint/parser": "^7.16.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-jest": "^27.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.6.0",
+    "@typescript-eslint/parser": "^8.6.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-jest": "^28.8.3",
     "jest": "^29.7.0",
-    "ts-jest": "^29.2.2",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.3"
+    "typescript": "^5.6.2"
   },
   "dependencies": {
-    "meriyah": "^4.5.0",
+    "meriyah": "^6.0.1",
     "rewire": "^7.0.0"
   }
 }
