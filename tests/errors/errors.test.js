@@ -8,6 +8,10 @@ test('Broken file with syntax issues should throw Error', () => {
   expect(() => jewire('./broken.js')).toThrow(Error);
 });
 
-test('Empty file should throw error import', () => {
-  expect(() => jewire('./empty.js')).toThrow(Error);
+test('Empty file should have no exports', () => {
+  expect(jewire('./empty.js').__jewireContext__.hiddenExportInfo.symbols).toStrictEqual({
+    classes: [],
+    functions: [],
+    variables: [],
+  });
 });

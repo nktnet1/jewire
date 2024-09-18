@@ -104,9 +104,9 @@ const retrieveSymbolsFromAst = (node: Statement, symbols: Symbols): void => {
  */
 const createAbstractSyntaxTree = (filePath: string) => {
   const code = fs.readFileSync(filePath, 'utf-8');
-  if (code.length === 0) {
-    throw new Error(`Module '${filePath}' is an empty file`);
-  }
+  // if (code.length === 0) {
+  //   throw new Error(`Module '${filePath}' is an empty file`);
+  // }
   try {
     return { ast: parse(code), code };
   } catch (error: any) {
