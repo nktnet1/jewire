@@ -55,6 +55,6 @@
   },
   "dependencies": {
     "meriyah": "^6.0.4",
-    "rewire": "^7.0.0"
+    "rewire": "^9.0.0"
   }
 }
