@@ -1,4 +1,4 @@
-import { Program as ASTProgram } from 'meriyah/dist/src/estree';
+import { Program as ASTProgram } from 'meriyah/dist/types/estree';
 import rewire from 'rewire';
 
 export type { ASTProgram };

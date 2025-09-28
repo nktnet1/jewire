@@ -3,7 +3,7 @@ import path from 'path';
 import { parse } from 'meriyah';
 import { VALID_FILE_EXTENSIONS } from './config';
 import { HiddenExportInfo, Symbols } from './types';
-import { Statement } from 'meriyah/dist/src/estree';
+import { Statement } from 'meriyah/dist/types/estree';
 
 /**
  * Get the file path of the caller function.
