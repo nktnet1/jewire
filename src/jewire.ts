@@ -1,7 +1,7 @@
 import rewire from 'rewire';
 import entityClone from './clone';
-import { JewireEntities, Options } from './types';
 import { findModuleFile, getCallerDirname, getModuleHiddenExports } from './files';
+import { JewireEntities, Options } from './types';
 
 /**
  * Leverages rewire to extract hidden exports from a JavaScript module, but
@@ -14,10 +14,7 @@ import { findModuleFile, getCallerDirname, getModuleHiddenExports } from './file
  * @returns {JewireEntities} - Named exports from the file
  */
 const jewire = (relativePath: string, options: Options = {}): JewireEntities => {
-  const filePath = findModuleFile(
-    options.basePath ?? getCallerDirname(),
-    relativePath
-  );
+  const filePath = findModuleFile(options.basePath ?? getCallerDirname(), relativePath);
   const hiddenExportInfo = getModuleHiddenExports(filePath);
   const hiddenExports = Object.values(hiddenExportInfo.symbols).flat();
   const rewireModule = rewire(filePath);
@@ -37,7 +34,7 @@ const jewire = (relativePath: string, options: Options = {}): JewireEntities => 
       rewire: rewireModule,
       hiddenExportInfo,
       jewireGetter,
-    }
+    },
   };
   for (const hiddenExport of hiddenExports) {
     entities[hiddenExport] = jewireGetter(hiddenExport);

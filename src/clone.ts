@@ -53,9 +53,7 @@ const functionClone = <T extends (...args: any[]) => any>(fn: T, clone: CloneFn)
    * @param args the arguments to be forwarded to the functions we are cloning
    * @returns the results of the function, deep copied at run time.
    */
-  const wrapperClonedFunction = (
-    ...args: Parameters<T>
-  ): ReturnType<T> => {
+  const wrapperClonedFunction = (...args: Parameters<T>): ReturnType<T> => {
     const result = fn(...args);
     return result && typeof result === 'object' ? clone(result) : result;
   };
@@ -101,12 +99,12 @@ function decorateClassMethodClone(target: any, clone: CloneFn) {
   // Decorate static methods
   Object.getOwnPropertyNames(target)
     .filter((key) => !['length', 'name', 'prototype'].includes(key))
-    .forEach(key => decorateMethod(target, key));
+    .forEach((key) => decorateMethod(target, key));
 
   // Decorate instance methods
   Reflect.ownKeys(target.prototype)
-    .filter(key => key !== 'constructor')
-    .forEach(key => decorateMethod(target.prototype, key));
+    .filter((key) => key !== 'constructor')
+    .forEach((key) => decorateMethod(target.prototype, key));
 
   return target;
 }
@@ -152,9 +150,7 @@ const functionOrClassClone = (functionOrClass: any, objClone: CloneFn) =>
  * @returns the cloned entity
  */
 function entityClone(entity: any, objClone = objectClone) {
-  return typeof entity === 'function'
-    ? functionOrClassClone(entity, objClone)
-    : objClone(entity);
+  return typeof entity === 'function' ? functionOrClassClone(entity, objClone) : objClone(entity);
 }
 
 export default entityClone;

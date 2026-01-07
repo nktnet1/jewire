@@ -284,4 +284,3 @@ The cause is Jest's utilisation of `node:vm` under the hood, which creates its o
 - https://github.com/jestjs/jest/issues/8446
 
 For further details and explanation about this problem, please visit Manuel Spigolon's [article](https://backend.cafe/should-you-use-jest-as-a-testing-library) about the use of the `instanceof` operator in Jest.
-

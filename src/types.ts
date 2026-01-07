@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import { Program as ASTProgram } from 'meriyah/dist/types/estree';
 import rewire from 'rewire';
 
@@ -24,10 +25,10 @@ export interface Options {
 
 export interface JewireEntities {
   __jewireContext__: {
-    rewire: ReturnType<typeof rewire>,
-    hiddenExportInfo: HiddenExportInfo
+    rewire: ReturnType<typeof rewire>;
+    hiddenExportInfo: HiddenExportInfo;
     jewireGetter: (name: string) => any;
-  }
+  };
 
   [key: string]: any;
 }

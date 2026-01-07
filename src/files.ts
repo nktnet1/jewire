@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import { parse } from 'meriyah';
+// eslint-disable-next-line import/no-unresolved
+import { Statement } from 'meriyah/dist/types/estree';
 import { VALID_FILE_EXTENSIONS } from './config';
 import { HiddenExportInfo, Symbols } from './types';
-import { Statement } from 'meriyah/dist/types/estree';
 
 /**
  * Get the file path of the caller function.
@@ -23,9 +24,7 @@ export const getCallerDirname = (): string => {
   const callerFilePath = stack[1].getFileName();
   /* istanbul ignore next */
   return path.dirname(
-    callerFilePath.startsWith('file://')
-      ? callerFilePath.substring(7)
-      : callerFilePath
+    callerFilePath.startsWith('file://') ? callerFilePath.substring(7) : callerFilePath,
   );
 };
 
@@ -44,9 +43,7 @@ const findFileWithExtensions = (filePath: string): string => {
       return extFilePath;
     }
   }
-  throw new Error(
-    `No such file '${filePath}' with matching extensions [${VALID_FILE_EXTENSIONS}]`
-  );
+  throw new Error(`No such file '${filePath}' with matching extensions [${VALID_FILE_EXTENSIONS}]`);
 };
 
 /**
@@ -111,7 +108,7 @@ const createAbstractSyntaxTree = (filePath: string) => {
     return { ast: parse(code), code };
   } catch (error: any) {
     throw new Error(
-`>>> Failed to parse code:
+      `>>> Failed to parse code:
 ===============================================================================
 ${filePath}
 ===============================================================================
@@ -121,7 +118,7 @@ ${code}
 =============================================
 Please double check the file:
     ${filePath}
-for the error: ${error}`
+for the error: ${error}`,
     );
   }
 };
