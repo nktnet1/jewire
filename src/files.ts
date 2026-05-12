@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { parse } from 'meriyah';
-// eslint-disable-next-line import/no-unresolved
-import { Statement } from 'meriyah/dist/types/estree';
+import type { Statement } from 'meriyah/dist/types/estree';
 import { VALID_FILE_EXTENSIONS } from './config';
 import { HiddenExportInfo, Symbols } from './types';
 
@@ -106,7 +105,7 @@ const createAbstractSyntaxTree = (filePath: string) => {
   // }
   try {
     return { ast: parse(code), code };
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw new Error(
       `>>> Failed to parse code:
 ===============================================================================
@@ -119,6 +118,9 @@ ${code}
 Please double check the file:
     ${filePath}
 for the error: ${error}`,
+      {
+        cause: error,
+      },
     );
   }
 };

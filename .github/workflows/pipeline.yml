@@ -1,14 +1,18 @@
 name: Pipeline
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
       - main
     paths-ignore:
       - '**/README.md'
+
   pull_request:
     branches:
-      - "*"
+      - '*'
     paths-ignore:
       - '**/README.md'
 
@@ -17,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.x, 18.x]
+        node-version: [22.x, 24.x]
       fail-fast: true
 
     steps:
