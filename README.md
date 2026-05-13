@@ -30,8 +30,6 @@
 &nbsp;
 [![DeepSource](https://app.deepsource.com/gh/nktnet1/jewire.svg/?label=active+issues&show_trend=true&token=OTP6tE2be4X1kvxZRsxRh25e)](https://app.deepsource.com/gh/nktnet1/jewire/)
 &nbsp;
-[![codebeat badge](https://codebeat.co/badges/8bdb4562-0492-4c1c-8b02-e69c94373d60)](https://codebeat.co/projects/github-com-nktnet1-jewire-main)
-&nbsp;
 [![GitHub stars](https://img.shields.io/github/stars/nktnet1/jewire.svg?style=social)](https://github.com/nktnet1/jewire/stargazers)
 
 [![Downloads Total](https://badgen.net/npm/dt/jewire)](https://moiva.io/?npm=jewire)
