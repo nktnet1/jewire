@@ -17,6 +17,6 @@ test('Object from require', () => {
       nested: {
         array: [1, 2, 3],
       },
-    }
+    },
   });
 });

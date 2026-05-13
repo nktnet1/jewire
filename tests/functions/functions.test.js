@@ -32,8 +32,8 @@ test('object return type is consistent', () => {
     key2: {
       nested: {
         array: [1, 2, 3],
-      }
-    }
+      },
+    },
   };
   expect(received).toStrictEqual(expected);
 });

@@ -17,7 +17,7 @@ const deeplyNestedObject = {
     nested: {
       array: [1, 2, 3],
     },
-  }
+  },
 };
 
 const nullVariable = null;

@@ -31,14 +31,17 @@ test('nested object passes strict equality', () => {
     key2: {
       nested: {
         array: [1, 2, 3],
-      }
-    }
+      },
+    },
   };
   expect(deeplyNestedObject).toStrictEqual(expected);
 });
 
 test('Array of Objects', () => {
-  expect(arrayOfObjects).toStrictEqual([{ name: 'Tam', age: 22 }, { name: 'Spam', age: 23 }]);
+  expect(arrayOfObjects).toStrictEqual([
+    { name: 'Tam', age: 22 },
+    { name: 'Spam', age: 23 },
+  ]);
 });
 
 test('Null variable', () => {

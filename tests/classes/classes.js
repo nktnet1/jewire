@@ -22,12 +22,9 @@ class TestClass {
         name: this.name,
         nameNested: {
           name: this.name,
-        }
+        },
       },
-      arrayOfObjects: [
-        { name: this.name },
-        { name: this.name }
-      ]
+      arrayOfObjects: [{ name: this.name }, { name: this.name }],
     };
   }
 
@@ -53,7 +50,7 @@ class TestClass {
         nested: {
           array: [1, 2, 3],
         },
-      }
+      },
     };
   }
 }

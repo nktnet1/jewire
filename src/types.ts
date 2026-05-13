@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import { Program as ASTProgram } from 'meriyah/dist/types/estree';
 import rewire from 'rewire';
 

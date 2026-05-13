@@ -24,12 +24,9 @@ describe('Instance methods', () => {
         name: 'Tam',
         nameNested: {
           name: 'Tam',
-        }
+        },
       },
-      arrayOfObjects: [
-        { name: 'Tam' },
-        { name: 'Tam' },
-      ]
+      arrayOfObjects: [{ name: 'Tam' }, { name: 'Tam' }],
     });
   });
 });
@@ -53,7 +50,7 @@ describe('Static methods', () => {
         nested: {
           array: [1, 2, 3],
         },
-      }
+      },
     });
   });
 });

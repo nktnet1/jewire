@@ -6,7 +6,7 @@ const getArrayArrowFunction = (n) => {
   return Array.from({ length: n }, (_, index) => index + 1);
 };
 
-function getArrayNormalFunction (n) {
+function getArrayNormalFunction(n) {
   return Array.from({ length: n }, (_, index) => index + 1);
 }
 
@@ -24,11 +24,8 @@ const getDeeplyNestedObject = () => {
       nested: {
         array: [1, 2, 3],
       },
-    }
+    },
   };
 };
 
-const getArrayOfObjects = () => [
-  { name: 'Tam' },
-  { name: 'Ham' },
-];
+const getArrayOfObjects = () => [{ name: 'Tam' }, { name: 'Ham' }];

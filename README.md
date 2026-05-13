@@ -60,15 +60,15 @@ Clone objects at runtime to remove false negatives in expect[.toStrictEqual](htt
 
 - [1. Installation](#1-installation)
 - [2. Usage](#2-usage)
-    - [2.1. relativePath](#21-relativepath)
-    - [2.2. options](#22-options)
-    - [2.3. return](#23-return)
+  - [2.1. relativePath](#21-relativepath)
+  - [2.2. options](#22-options)
+  - [2.3. return](#23-return)
 - [3. License](#3-license)
 - [4. Limitations](#4-limitations)
 - [5. Caveats](#5-caveats)
-    - [5.1. Purpose](#51-purpose)
-    - [5.2. Rationale](#52-rationale)
-    - [5.3. Rewire and Jest](#53-rewire-and-jest)
+  - [5.1. Purpose](#51-purpose)
+  - [5.2. Rationale](#52-rationale)
+  - [5.3. Rewire and Jest](#53-rewire-and-jest)
 
 ## 1. Installation
 
@@ -98,25 +98,21 @@ const { privateVariable, privateFunction } = jewire('private-module');
 Importing `.cjs` file from a different directory
 
 ```javascript
-const { privateFunction  } = jewire('../src/private-module.cjs');
+const { privateFunction } = jewire('../src/private-module.cjs');
 ```
 
 Using a different basePath
 
 ```javascript
-const { privateFunction } = jewire(
-  'private-module',
-  { basePath: process.cwd() }
-);
+const { privateFunction } = jewire('private-module', { basePath: process.cwd() });
 ```
 
 Using a different clone function from the default `clone.objectClone`:
 
 ```javascript
-const { privateFunction } = jewire(
-  'private-module',
-  { objectClone: (obj) => JSON.parse(JSON.stringify(obj)) }
-);
+const { privateFunction } = jewire('private-module', {
+  objectClone: (obj) => JSON.parse(JSON.stringify(obj)),
+});
 ```
 
 </details>
@@ -126,10 +122,11 @@ const { privateFunction } = jewire(
 ### 2.1. Parameter: relativePath
 
 Path to the module relative to the current file, similar to CommonJS [require](https://nodejs.org/api/modules.html#requireid). For example,
+
 - `'../animals/cats.js'`
 - `'./common.cjs'`
 - `'minimal'`
-    -  `jewire` will look for `'./minimal.js'` before `'./minimal.cjs'`
+  - `jewire` will look for `'./minimal.js'` before `'./minimal.cjs'`
 
 Note that `option.basePath` can be provided to alter this behaviour.
 
@@ -187,17 +184,18 @@ Additionally, the returned object contains the key `__jewireContext__` with the 
 1. `rewire`: the return value of `rewire(modulePath)`. Please refer to the documentation for [rewire](https://github.com/jhnns/rewire) for further details.
 2. `hiddenExportInfo`: An object containing information about all hidden exports, of the form:
 
-    ```javascript
-    {
-      symbols: {
-        variables: string[],
-        functions: string[],
-        classes: string[],
-      }
-      ast: ASTProgram, // Abstract Syntax Tree from Meriyah parser
-      code: string, // return value of fs.readFileSync(filePath)
-    }
-    ```
+   ```javascript
+   {
+     symbols: {
+       variables: string[],
+       functions: string[],
+       classes: string[],
+     }
+     ast: ASTProgram, // Abstract Syntax Tree from Meriyah parser
+     code: string, // return value of fs.readFileSync(filePath)
+   }
+   ```
+
 3. `jewireGetter`: the internal function used by jewire to retrieve objects. It has the same prototype as [`rewireModule.__get__`](https://github.com/jhnns/rewire?tab=readme-ov-file#rewiredmodule__get__name-string-), although objects are deep cloned using either jewire's default clone function or, if provided, `options.objectClone`.
 
 ### 2.4. Errors
@@ -276,10 +274,11 @@ This process requires reading the module twice - once to parse into an [Abstract
 functions and class methods to be compared using
 [Jest](https://jestjs.io)'s
 expect[.toStrictEqual](https://jestjs.io/docs/expect#tostrictequalvalue) matcher,
-which in the rewire module would yield *"Received: serializes to the same
-string"*.
+which in the rewire module would yield _"Received: serializes to the same
+string"_.
 
 The cause is Jest's utilisation of `node:vm` under the hood, which creates its own temporary context that overrides global classes such as `Array`, `Error` and `Date` to extend functionalities. These global classes differ from those that are returned from [rewire](https://github.com/jhnns/rewire)'s private functions, as depicted in the following GitHub issues made by [@geogezlei](https://github.com/georgezlei):
+
 - https://github.com/jhnns/rewire/issues/164
 - https://github.com/jestjs/jest/issues/8446
 

@@ -4,5 +4,5 @@ module.exports = {
     nested: {
       array: [1, 2, 3],
     },
-  }
+  },
 };
