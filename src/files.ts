@@ -18,9 +18,13 @@ export const getCallerDirname = (): string => {
   Error.prepareStackTrace = (_, stack) => stack;
   const err = new Error();
   Error.captureStackTrace(err, getCallerDirname);
-  const stack = err.stack as any;
+  const stack = err.stack as unknown as NodeJS.CallSite[];
   Error.prepareStackTrace = orig;
-  const callerFilePath = stack[1].getFileName();
+  const callerFilePath = stack[1]?.getFileName();
+  /* istanbul ignore next */
+  if (!callerFilePath) {
+    return "";
+  }
   /* istanbul ignore next */
   return path.dirname(
     callerFilePath.startsWith("file://")

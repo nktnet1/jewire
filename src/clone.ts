@@ -1,13 +1,17 @@
 import type { CloneFn } from "./types";
 
+type RuntimeFunction = (...args: unknown[]) => unknown;
+type ClassLike = object & { prototype: object };
+type FunctionOrClass = RuntimeFunction | ClassLike;
+
 /**
  * Checks if the provided value is a JavaScript function or a class constructor.
  * You should first check that `typeof functionOrClass === 'function'`
  *
- * @param {any} functionOrClass - value known to be either a function or class
+ * @param {FunctionOrClass} functionOrClass - value known to be either a function or class
  * @returns {boolean} - `true` if the value is a function, false if it is a class
  */
-export const isFunction = (functionOrClass: any): boolean => {
+export const isFunction = (functionOrClass: FunctionOrClass): boolean => {
   const propertyNames = Object.getOwnPropertyNames(functionOrClass);
   return (
     !propertyNames.includes("prototype") || propertyNames.includes("arguments")
@@ -29,7 +33,7 @@ const objectClone: CloneFn = <T>(obj: T): T => {
     // Empty array doesn't clone properly in Jest with just map
     return (obj.length === 0 ? [] : [...obj.map(objectClone)]) as T;
   }
-  const cloneObj: Record<string, any> = {};
+  const cloneObj: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(obj)) {
     cloneObj[key] = objectClone(value);
   }
@@ -48,17 +52,17 @@ const objectClone: CloneFn = <T>(obj: T): T => {
  * @param clone - The deep cloning function (defaulting to `deepClone`).
  * @returns A jewirified function.
  */
-const functionClone = <T extends (...args: any[]) => any>(
-  fn: T,
+const functionClone = (
+  fn: RuntimeFunction,
   clone: CloneFn,
-) => {
+): RuntimeFunction => {
   /**
    * Defines a new wrapper function that deep-clones the return value at run time
    *
    * @param args the arguments to be forwarded to the functions we are cloning
    * @returns the results of the function, deep copied at run time.
    */
-  const wrapperClonedFunction = (...args: Parameters<T>): ReturnType<T> => {
+  const wrapperClonedFunction = (...args: unknown[]): unknown => {
     const result = fn(...args);
     return result && typeof result === "object" ? clone(result) : result;
   };
@@ -79,26 +83,23 @@ const functionClone = <T extends (...args: any[]) => any>(
 
  * @param target object instance to decorate methods around
  */
-function decorateClassMethodClone(target: any, clone: CloneFn) {
+function decorateClassMethodClone(target: ClassLike, clone: CloneFn) {
   /**
    * Ensure that the return values of all objects are cloned
    *
    * @param obj object whose method return values need to be cloned
    * @param key name of the method whose return values will be cloned
    */
-  const decorateMethod = (
-    obj: Record<string, any>,
-    key: string | symbol,
-  ): void => {
+  const decorateMethod = (obj: object, key: string | symbol): void => {
     const descriptor = Reflect.getOwnPropertyDescriptor(obj, key);
     /* istanbul ignore next */
     if (!descriptor?.configurable) {
       return;
     }
-    const { value } = descriptor;
+    const value: unknown = descriptor.value;
     if (typeof value === "function" && value !== target) {
-      descriptor.value = function (...args: any[]) {
-        return entityClone(value.apply(this, args), clone);
+      descriptor.value = function (this: unknown, ...args: unknown[]) {
+        return entityClone(Reflect.apply(value, this, args), clone);
       };
       Object.defineProperty(obj, key, descriptor);
     }
@@ -129,7 +130,7 @@ function decorateClassMethodClone(target: any, clone: CloneFn) {
 /* istanbul ignore next */
 const classClone = <T>(obj: T, objClone: CloneFn): T => {
   if (obj ?? typeof obj !== "object") {
-    return decorateClassMethodClone(obj as any, objClone);
+    return decorateClassMethodClone(obj as ClassLike, objClone) as T;
   }
   const props = Object.getOwnPropertyDescriptors(obj);
   for (const prop of Object.keys(props)) {
@@ -145,10 +146,13 @@ const classClone = <T>(obj: T, objClone: CloneFn): T => {
  * @param objClone
  * @returns the cloned function or class
  */
-const functionOrClassClone = (functionOrClass: any, objClone: CloneFn) =>
+const functionOrClassClone = (
+  functionOrClass: FunctionOrClass,
+  objClone: CloneFn,
+): FunctionOrClass =>
   isFunction(functionOrClass)
-    ? functionClone(functionOrClass, objClone)
-    : classClone(functionOrClass, objClone);
+    ? functionClone(functionOrClass as RuntimeFunction, objClone)
+    : classClone(functionOrClass as ClassLike, objClone);
 
 /**
  * Clones an entity for use with Jest expect.toStrictEqual
@@ -157,9 +161,12 @@ const functionOrClassClone = (functionOrClass: any, objClone: CloneFn) =>
  * @param objClone custom function to clone objects/arrays
  * @returns the cloned entity
  */
-function entityClone(entity: any, objClone = objectClone) {
+function entityClone<T>(entity: T, objClone = objectClone): T {
   return typeof entity === "function"
-    ? functionOrClassClone(entity, objClone)
+    ? (functionOrClassClone(
+        entity as unknown as FunctionOrClass,
+        objClone,
+      ) as T)
     : objClone(entity);
 }
 

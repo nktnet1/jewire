@@ -5,7 +5,7 @@ import {
   getCallerDirname,
   getModuleHiddenExports,
 } from "./files";
-import type { JewireEntities, Options } from "./types";
+import type { JewireEntities, Options, RewireEntity } from "./types";
 
 /**
  * Leverages rewire to extract hidden exports from a JavaScript module, but
@@ -34,9 +34,9 @@ const jewire = (
    * prototype as rewireModule.__get__, although objects are deep-cloned.
    *
    * @param {string} name the name of the object to retrieve
-   * @returns {any} the retrieved object
+   * @returns {RewireEntity} the retrieved object
    */
-  const jewireGetter = (name: string): any =>
+  const jewireGetter = (name: string): RewireEntity =>
     entityClone(rewireModule.__get__(name), options.objectClone);
 
   const entities: JewireEntities = {

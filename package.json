@@ -19,7 +19,7 @@
     "lint": "biome lint",
     "format": "biome format",
     "check": "biome check",
-    "tsc": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "build": "tsdown",
     "prepublishOnly": "pnpm build"
   },

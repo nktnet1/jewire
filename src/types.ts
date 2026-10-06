@@ -16,6 +16,7 @@ export interface HiddenExportInfo {
 }
 
 export type CloneFn = <T>(object: T) => T;
+export type RewireEntity = ReturnType<ReturnType<typeof rewire>["__get__"]>;
 
 export interface Options {
   basePath?: string;
@@ -26,8 +27,8 @@ export interface JewireEntities {
   __jewireContext__: {
     rewire: ReturnType<typeof rewire>;
     hiddenExportInfo: HiddenExportInfo;
-    jewireGetter: (name: string) => any;
+    jewireGetter: (name: string) => RewireEntity;
   };
 
-  [key: string]: any;
+  [key: string]: RewireEntity;
 }
