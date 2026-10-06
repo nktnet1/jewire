@@ -11,7 +11,7 @@ type FunctionOrClass = RuntimeFunction | ClassLike;
  * @param {FunctionOrClass} functionOrClass - value known to be either a function or class
  * @returns {boolean} - `true` if the value is a function, false if it is a class
  */
-export const isFunction = (functionOrClass: FunctionOrClass): boolean => {
+const isFunction = (functionOrClass: FunctionOrClass): boolean => {
   const propertyNames = Object.getOwnPropertyNames(functionOrClass);
   return (
     !propertyNames.includes("prototype") || propertyNames.includes("arguments")
@@ -108,12 +108,16 @@ function decorateClassMethodClone(target: ClassLike, clone: CloneFn) {
   // Decorate static methods
   Object.getOwnPropertyNames(target)
     .filter((key) => !["length", "name", "prototype"].includes(key))
-    .forEach((key) => void decorateMethod(target, key));
+    .forEach((key) => {
+      decorateMethod(target, key);
+    });
 
   // Decorate instance methods
   Reflect.ownKeys(target.prototype)
     .filter((key) => key !== "constructor")
-    .forEach((key) => void decorateMethod(target.prototype, key));
+    .forEach((key) => {
+      decorateMethod(target.prototype, key);
+    });
 
   return target;
 }
