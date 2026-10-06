@@ -1,7 +1,11 @@
-import rewire from 'rewire';
-import entityClone from './clone';
-import { findModuleFile, getCallerDirname, getModuleHiddenExports } from './files';
-import { JewireEntities, Options } from './types';
+import rewire from "rewire";
+import entityClone from "./clone";
+import {
+  findModuleFile,
+  getCallerDirname,
+  getModuleHiddenExports,
+} from "./files";
+import type { JewireEntities, Options } from "./types";
 
 /**
  * Leverages rewire to extract hidden exports from a JavaScript module, but
@@ -13,8 +17,14 @@ import { JewireEntities, Options } from './types';
  * @param {Options} [options] - options for jewire as defined in types.ts
  * @returns {JewireEntities} - Named exports from the file
  */
-const jewire = (relativePath: string, options: Options = {}): JewireEntities => {
-  const filePath = findModuleFile(options.basePath ?? getCallerDirname(), relativePath);
+const jewire = (
+  relativePath: string,
+  options: Options = {},
+): JewireEntities => {
+  const filePath = findModuleFile(
+    options.basePath ?? getCallerDirname(),
+    relativePath,
+  );
   const hiddenExportInfo = getModuleHiddenExports(filePath);
   const hiddenExports = Object.values(hiddenExportInfo.symbols).flat();
   const rewireModule = rewire(filePath);

@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "target": "es6",
     "paths": {
-      "meriyah/dist/types/estree": ["./node_modules/meriyah/dist/types/estree.d.ts"]
+      "meriyah/dist/types/estree": [
+        "./node_modules/meriyah/dist/types/estree.d.ts"
+      ]
     }
   },
   "include": ["src/**/*.ts"]

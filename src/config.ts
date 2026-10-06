@@ -1,1 +1,1 @@
-export const VALID_FILE_EXTENSIONS = Object.freeze(['.js', '.cjs']);
+export const VALID_FILE_EXTENSIONS = Object.freeze([".js", ".cjs"]);

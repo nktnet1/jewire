@@ -1,4 +1,4 @@
-import { CloneFn } from './types';
+import type { CloneFn } from "./types";
 
 /**
  * Checks if the provided value is a JavaScript function or a class constructor.
@@ -9,7 +9,9 @@ import { CloneFn } from './types';
  */
 export const isFunction = (functionOrClass: any): boolean => {
   const propertyNames = Object.getOwnPropertyNames(functionOrClass);
-  return !propertyNames.includes('prototype') || propertyNames.includes('arguments');
+  return (
+    !propertyNames.includes("prototype") || propertyNames.includes("arguments")
+  );
 };
 
 /**
@@ -20,7 +22,7 @@ export const isFunction = (functionOrClass: any): boolean => {
  * @returns {T} - A deep clone of the input object or array.
  */
 const objectClone: CloneFn = <T>(obj: T): T => {
-  if (!obj || typeof obj !== 'object') {
+  if (!obj || typeof obj !== "object") {
     return obj;
   }
   if (Array.isArray(obj)) {
@@ -46,7 +48,10 @@ const objectClone: CloneFn = <T>(obj: T): T => {
  * @param clone - The deep cloning function (defaulting to `deepClone`).
  * @returns A jewirified function.
  */
-const functionClone = <T extends (...args: any[]) => any>(fn: T, clone: CloneFn) => {
+const functionClone = <T extends (...args: any[]) => any>(
+  fn: T,
+  clone: CloneFn,
+) => {
   /**
    * Defines a new wrapper function that deep-clones the return value at run time
    *
@@ -55,9 +60,9 @@ const functionClone = <T extends (...args: any[]) => any>(fn: T, clone: CloneFn)
    */
   const wrapperClonedFunction = (...args: Parameters<T>): ReturnType<T> => {
     const result = fn(...args);
-    return result && typeof result === 'object' ? clone(result) : result;
+    return result && typeof result === "object" ? clone(result) : result;
   };
-  Object.defineProperty(wrapperClonedFunction, 'name', {
+  Object.defineProperty(wrapperClonedFunction, "name", {
     value: fn.name,
     writable: false,
     enumerable: false,
@@ -81,14 +86,17 @@ function decorateClassMethodClone(target: any, clone: CloneFn) {
    * @param obj object whose method return values need to be cloned
    * @param key name of the method whose return values will be cloned
    */
-  const decorateMethod = (obj: Record<string, any>, key: string | symbol): void => {
+  const decorateMethod = (
+    obj: Record<string, any>,
+    key: string | symbol,
+  ): void => {
     const descriptor = Reflect.getOwnPropertyDescriptor(obj, key);
     /* istanbul ignore next */
     if (!descriptor?.configurable) {
       return;
     }
     const { value } = descriptor;
-    if (typeof value === 'function' && value !== target) {
+    if (typeof value === "function" && value !== target) {
       descriptor.value = function (...args: any[]) {
         return entityClone(value.apply(this, args), clone);
       };
@@ -98,13 +106,13 @@ function decorateClassMethodClone(target: any, clone: CloneFn) {
 
   // Decorate static methods
   Object.getOwnPropertyNames(target)
-    .filter((key) => !['length', 'name', 'prototype'].includes(key))
-    .forEach((key) => decorateMethod(target, key));
+    .filter((key) => !["length", "name", "prototype"].includes(key))
+    .forEach((key) => void decorateMethod(target, key));
 
   // Decorate instance methods
   Reflect.ownKeys(target.prototype)
-    .filter((key) => key !== 'constructor')
-    .forEach((key) => decorateMethod(target.prototype, key));
+    .filter((key) => key !== "constructor")
+    .forEach((key) => void decorateMethod(target.prototype, key));
 
   return target;
 }
@@ -120,7 +128,7 @@ function decorateClassMethodClone(target: any, clone: CloneFn) {
  */
 /* istanbul ignore next */
 const classClone = <T>(obj: T, objClone: CloneFn): T => {
-  if (obj ?? typeof obj !== 'object') {
+  if (obj ?? typeof obj !== "object") {
     return decorateClassMethodClone(obj as any, objClone);
   }
   const props = Object.getOwnPropertyDescriptors(obj);
@@ -150,7 +158,9 @@ const functionOrClassClone = (functionOrClass: any, objClone: CloneFn) =>
  * @returns the cloned entity
  */
 function entityClone(entity: any, objClone = objectClone) {
-  return typeof entity === 'function' ? functionOrClassClone(entity, objClone) : objClone(entity);
+  return typeof entity === "function"
+    ? functionOrClassClone(entity, objClone)
+    : objClone(entity);
 }
 
 export default entityClone;

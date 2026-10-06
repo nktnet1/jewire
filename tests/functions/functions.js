@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/** biome-ignore-all lint/correctness/noUnusedVariables: unused test files */
 
 const sum = (a, b) => a + b;
 
@@ -12,14 +12,14 @@ function getArrayNormalFunction(n) {
 
 const getObject = () => {
   return {
-    key1: 'value1',
+    key1: "value1",
     key2: 2,
   };
 };
 
 const getDeeplyNestedObject = () => {
   return {
-    key1: 'value1',
+    key1: "value1",
     key2: {
       nested: {
         array: [1, 2, 3],
@@ -28,4 +28,4 @@ const getDeeplyNestedObject = () => {
   };
 };
 
-const getArrayOfObjects = () => [{ name: 'Tam' }, { name: 'Ham' }];
+const getArrayOfObjects = () => [{ name: "Tam" }, { name: "Ham" }];

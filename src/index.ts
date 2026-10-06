@@ -1,3 +1,4 @@
-import jewire from './jewire';
-export type { Options, HiddenExportInfo, CloneFn } from './types';
+import jewire from "./jewire";
+
+export type { CloneFn, HiddenExportInfo, Options } from "./types";
 export default jewire;

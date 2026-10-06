@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/** biome-ignore-all lint/correctness/noUnusedVariables: unused test files */
 
 class TestClass {
   constructor(name, names) {
@@ -33,19 +33,19 @@ class TestClass {
   }
 
   static getObject() {
-    return { key1: 'value1', key2: 2 };
+    return { key1: "value1", key2: 2 };
   }
 
   static getArrayOfObjects() {
     return [
-      { name: 'Tam', age: 22 },
-      { name: 'Spam', age: 23 },
+      { name: "Tam", age: 22 },
+      { name: "Spam", age: 23 },
     ];
   }
 
   static getDeeplyNestedObject() {
     return {
-      key1: 'value1',
+      key1: "value1",
       key2: {
         nested: {
           array: [1, 2, 3],
@@ -55,8 +55,8 @@ class TestClass {
   }
 }
 
-Object.defineProperty(TestClass.prototype, 'makeThisNonConfigurable', {
+Object.defineProperty(TestClass.prototype, "makeThisNonConfigurable", {
   configurable: false,
 });
 
-Object.defineProperty(TestClass.prototype, 'null', {});
+Object.defineProperty(TestClass.prototype, "null", {});

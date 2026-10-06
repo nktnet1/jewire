@@ -1,9 +1,9 @@
-import fs from 'fs';
-import path from 'path';
-import { parse } from 'meriyah';
-import type { Statement } from 'meriyah/dist/types/estree';
-import { VALID_FILE_EXTENSIONS } from './config';
-import { HiddenExportInfo, Symbols } from './types';
+import fs from "fs";
+import { parse } from "meriyah";
+import type { Statement } from "meriyah/dist/types/estree";
+import path from "path";
+import { VALID_FILE_EXTENSIONS } from "./config";
+import type { HiddenExportInfo, Symbols } from "./types";
 
 /**
  * Get the file path of the caller function.
@@ -23,7 +23,9 @@ export const getCallerDirname = (): string => {
   const callerFilePath = stack[1].getFileName();
   /* istanbul ignore next */
   return path.dirname(
-    callerFilePath.startsWith('file://') ? callerFilePath.substring(7) : callerFilePath,
+    callerFilePath.startsWith("file://")
+      ? callerFilePath.substring(7)
+      : callerFilePath,
   );
 };
 
@@ -42,7 +44,9 @@ const findFileWithExtensions = (filePath: string): string => {
       return extFilePath;
     }
   }
-  throw new Error(`No such file '${filePath}' with matching extensions [${VALID_FILE_EXTENSIONS}]`);
+  throw new Error(
+    `No such file '${filePath}' with matching extensions [${VALID_FILE_EXTENSIONS}]`,
+  );
 };
 
 /**
@@ -53,7 +57,10 @@ const findFileWithExtensions = (filePath: string): string => {
  * @returns {string} The resolved file path
  * @throws {Error} If the file is not found
  */
-export const findModuleFile = (basePath: string, modulePath: string): string => {
+export const findModuleFile = (
+  basePath: string,
+  modulePath: string,
+): string => {
   const filePath = path.join(basePath, modulePath);
   return fs.existsSync(filePath) ? filePath : findFileWithExtensions(filePath);
 };
@@ -67,19 +74,19 @@ export const findModuleFile = (basePath: string, modulePath: string): string => 
  */
 const retrieveSymbolsFromAst = (node: Statement, symbols: Symbols): void => {
   switch (node.type) {
-    case 'VariableDeclaration':
+    case "VariableDeclaration":
       node.declarations.forEach((declaration) => {
-        if (declaration.id.type === 'Identifier') {
+        if (declaration.id.type === "Identifier") {
           symbols.variables.push(declaration.id.name);
         }
       });
       break;
-    case 'FunctionDeclaration':
+    case "FunctionDeclaration":
       if (node.id !== null) {
         symbols.functions.push(node.id.name);
       }
       break;
-    case 'ClassDeclaration':
+    case "ClassDeclaration":
       if (node.id !== null) {
         symbols.classes.push(node.id.name);
       }
@@ -99,7 +106,7 @@ const retrieveSymbolsFromAst = (node: Statement, symbols: Symbols): void => {
  * - `code` (string): The original code read from the file
  */
 const createAbstractSyntaxTree = (filePath: string) => {
-  const code = fs.readFileSync(filePath, 'utf-8');
+  const code = fs.readFileSync(filePath, "utf-8");
   // if (code.length === 0) {
   //   throw new Error(`Module '${filePath}' is an empty file`);
   // }
