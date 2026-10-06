@@ -1,4 +1,4 @@
 import jewire from "./jewire";
 
-export type { CloneFn, HiddenExportInfo, Options } from "./types";
+export type { ASTProgram, CloneFn, HiddenExportInfo, Options } from "./types";
 export default jewire;

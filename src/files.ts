@@ -1,6 +1,6 @@
 import fs from "fs";
 import { parse } from "meriyah";
-import type { Statement } from "meriyah/dist/types/estree";
+import type { ModuleDeclaration, Statement } from "meriyah/dist/types/estree";
 import path from "path";
 import { VALID_FILE_EXTENSIONS } from "./config";
 import type { HiddenExportInfo, Symbols } from "./types";
@@ -76,7 +76,10 @@ export const findModuleFile = (
  * @param symbols - object containing three arrays: functions/classes/variables
  * @returns symbols consisting of variables, functions and classes
  */
-const retrieveSymbolsFromAst = (node: Statement, symbols: Symbols): void => {
+const retrieveSymbolsFromAst = (
+  node: Statement | ModuleDeclaration,
+  symbols: Symbols,
+): void => {
   switch (node.type) {
     case "VariableDeclaration":
       node.declarations.forEach((declaration) => {
