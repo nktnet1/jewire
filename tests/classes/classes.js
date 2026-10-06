@@ -55,6 +55,8 @@ class TestClass {
   }
 }
 
+TestClass.self = TestClass;
+
 Object.defineProperty(TestClass.prototype, "makeThisNonConfigurable", {
   configurable: false,
 });

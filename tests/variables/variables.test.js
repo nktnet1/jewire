@@ -62,3 +62,8 @@ test("Undefined variable", () => {
   const undef = undefined;
   expect(undefinedVariable).toStrictEqual(undef);
 });
+
+test("Destructured variable declarations are skipped", () => {
+  const { destructuredVariable } = jewire("./variables");
+  expect(destructuredVariable).toBeUndefined();
+});

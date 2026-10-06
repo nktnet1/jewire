@@ -89,11 +89,15 @@ const retrieveSymbolsFromAst = (
       });
       break;
     case "FunctionDeclaration":
+      // Anonymous declarations require export default and cannot be body nodes.
+      /* istanbul ignore else */
       if (node.id !== null) {
         symbols.functions.push(node.id.name);
       }
       break;
     case "ClassDeclaration":
+      // Anonymous declarations require export default and cannot be body nodes.
+      /* istanbul ignore else */
       if (node.id !== null) {
         symbols.classes.push(node.id.name);
       }

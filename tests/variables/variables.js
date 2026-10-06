@@ -27,3 +27,6 @@ const emptyObject = {};
 const emptyArray = [];
 
 const undefinedVariable = undefined;
+
+// Destructured declarations are intentionally skipped by symbol discovery.
+const { destructuredVariable } = { destructuredVariable: 10 };

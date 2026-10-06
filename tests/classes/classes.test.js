@@ -32,6 +32,10 @@ describe("Instance methods", () => {
 });
 
 describe("Static methods", () => {
+  test("Class self reference is preserved", () => {
+    expect(TestClass.self).toBe(TestClass);
+  });
+
   test("Basic class object return", () => {
     expect(TestClass.getObject()).toStrictEqual({ key1: "value1", key2: 2 });
   });
