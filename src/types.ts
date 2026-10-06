@@ -23,12 +23,14 @@ export interface Options {
   objectClone?: CloneFn;
 }
 
-export interface JewireEntities {
+export type JewireEntities<
+  TPrivate extends object = Record<string, RewireEntity>,
+> = TPrivate & {
   __jewireContext__: {
     rewire: ReturnType<typeof rewire>;
     hiddenExportInfo: HiddenExportInfo;
-    jewireGetter: (name: string) => RewireEntity;
+    jewireGetter: <K extends Extract<keyof TPrivate, string>>(
+      name: K,
+    ) => TPrivate[K];
   };
-
-  [key: string]: RewireEntity;
-}
+};

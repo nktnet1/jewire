@@ -13,14 +13,15 @@ import type { JewireEntities, Options, RewireEntity } from "./types";
  * Returned objects and arrays are also deep-cloned such that they can be
  * tested with .toStrictEqual() in Jest, although introduces limitations
  *
+ * @template TPrivate - private module shape used for TypeScript autocomplete
  * @param {string} relativePath - the name or path of the module, e.g. ./arrays
  * @param {Options} [options] - options for jewire as defined in types.ts
- * @returns {JewireEntities} - Named exports from the file
+ * @returns {JewireEntities<TPrivate>} - Named exports from the file
  */
-const jewire = (
+const jewire = <TPrivate extends object = Record<string, RewireEntity>>(
   relativePath: string,
   options: Options = {},
-): JewireEntities => {
+): JewireEntities<TPrivate> => {
   const filePath = findModuleFile(
     options.basePath ?? getCallerDirname(),
     relativePath,
@@ -50,7 +51,8 @@ const jewire = (
     entities[hiddenExport] = jewireGetter(hiddenExport);
   }
 
-  return entities;
+  // Private symbols are discovered at runtime; TPrivate supplies their static shape.
+  return entities as unknown as JewireEntities<TPrivate>;
 };
 
 export default jewire;
